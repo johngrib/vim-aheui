@@ -49,11 +49,7 @@ function! s:init()
     let s:code = s:util.getDividedCode(s:codeList)
 
     let s:directionMap = s:setDirectionMap()
-
-    let s:pointer = {'x':0, 'y':0}
-    let s:pointer.direction = {'x':0, 'y':0}
-    let s:pointer.old = s:pointer
-    let s:pointer.move = function('<SID>move')
+    let s:pointer = VimAheui#pointer#new()
 
 endfunction
 
@@ -63,12 +59,6 @@ endfunction
 
 function! s:movePointer(cmd)
     call s:directionMap[a:cmd[1]]()
-endfunction
-
-function! s:move() dict
-    let self.old = {'x':(self.x), 'y':(self.y)}
-    let self.x += self.direction.x
-    let self.y += self.direction.y
 endfunction
 
 function! s:moveBack()
