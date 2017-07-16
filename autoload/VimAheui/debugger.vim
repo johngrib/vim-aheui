@@ -1,5 +1,7 @@
 scriptencoding utf-8
 
+let s:util = {}
+
 let s:rawCode = ''
 let s:codeList = []
 let s:code = []
@@ -13,9 +15,8 @@ let s:pointerOld = s:pointer
 function! VimAheui#debugger#run()
 
     call s:init()
-    let l:loop = 1
 
-    while l:loop == 1
+    while v:true
 
         let l:cmd = s:getCommand()
 
@@ -24,23 +25,34 @@ function! VimAheui#debugger#run()
         try
             call s:movePointer(l:cmd)
         catch
-            let l:loop = 0
             echom v:errmsg
+            break
         endtry
 
     endwhile
 
 endfunction
 
+function! s:getUtil()
+    if ! empty(s:util)
+        return s:util
+    endif
+    return VimAheui#util#new()
+endfunction
+
 function! s:init()
-    let s:rawCode = s:getCodeOnCursor()
-    let s:codeList = s:getCodeList(s:rawCode)
-    let s:code = s:getDividedCode(s:codeList)
+
+    let s:util = s:getUtil()
+
+    let s:rawCode = s:util.getCodeOnCursor()
+    let s:codeList = s:util.getCodeList(s:rawCode)
+    let s:code = s:util.getDividedCode(s:codeList)
 
     let s:directionMap = s:setDirectionMap()
 
     let s:pointer = {'x':0, 'y':0}
     let s:pointerOld = s:pointer
+
 endfunction
 
 function! s:getCommand()
@@ -150,31 +162,5 @@ function s:reflect()
     call s:goBack()
     call s:reverseX()
     call s:reverseY()
-endfunction
-
-function! s:getCodeList(rawCode)
-    let l:codeList = split(a:rawCode, '\n')
-    call map(l:codeList, {ind, val -> split(val, '.\zs')})
-    return l:codeList
-endfunction
-
-function! s:getDividedCode(codeList)
-    let l:code = deepcopy(a:codeList)
-    for line in l:code
-        call map(line, {ind, val -> VimAheui#hangul#divide(val)})
-    endfor
-    return l:code
-endfunction
-
-function! s:getCursorChar()
-    return matchstr(getline('.'), '\%' . col('.') . 'c.')
-endfunction
-
-function! s:getCodeOnCursor()
-    let l:temp = @z
-    execute 'normal! "zyip'
-    let l:code = @z
-    let @z = l:temp
-    return l:code
 endfunction
 
