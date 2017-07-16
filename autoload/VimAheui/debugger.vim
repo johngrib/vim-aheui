@@ -7,10 +7,10 @@ let s:codeList = []
 let s:code = []
 
 let s:directionMap = {}
-let s:direction = {'x':0, 'y':0}
 
 let s:pointer = {'x':0, 'y':0}
-let s:pointerOld = s:pointer
+let s:pointer.direction = {'x':0, 'y':0}
+let s:pointer.old = {'x':0, 'y':0}
 
 function! VimAheui#debugger#run()
 
@@ -51,7 +51,9 @@ function! s:init()
     let s:directionMap = s:setDirectionMap()
 
     let s:pointer = {'x':0, 'y':0}
-    let s:pointerOld = s:pointer
+    let s:pointer.direction = {'x':0, 'y':0}
+    let s:pointer.old = s:pointer
+    let s:pointer.move = function('<SID>move')
 
 endfunction
 
@@ -63,16 +65,17 @@ function! s:movePointer(cmd)
     call s:directionMap[a:cmd[1]]()
 endfunction
 
-function! s:move()
-    let s:pointerOld = copy(s:pointer)
-    let s:pointer.x += s:direction.x
-    let s:pointer.y += s:direction.y
+function! s:move() dict
+    let self.old = {'x':(self.x), 'y':(self.y)}
+    let self.x += self.direction.x
+    let self.y += self.direction.y
 endfunction
 
 function! s:moveBack()
-    let l:temp = copy(s:pointer)
-    let s:pointer = s:pointerOld
-    let s:pointerOld = l:temp
+    let l:temp = {'x':(s:pointer.x), 'y':(s:pointer.y)}
+    let s:pointer.x = s:pointer.old.x
+    let s:pointer.y = s:pointer.old.y
+    let s:pointer.old = l:temp
 endfunction
 
 function! s:setDirectionMap()
@@ -113,19 +116,19 @@ function! s:setDirectionMap()
 endfunction
 
 function s:right(m)
-    let s:direction.x = a:m
-    let s:direction.y = 0
-    call s:move()
+    let s:pointer.direction.x = a:m
+    let s:pointer.direction.y = 0
+    call s:pointer.move()
 endfunction
 
 function s:down(m)
-    let s:direction.x = 0
-    let s:direction.y = a:m
-    call s:move()
+    let s:pointer.direction.x = 0
+    let s:pointer.direction.y = a:m
+    call s:pointer.move()
 endfunction
 
 function s:go()
-    call s:move()
+    call s:pointer.move()
 endfunction
 
 function s:goBack()
@@ -133,15 +136,15 @@ function s:goBack()
 endfunction
 
 function s:reverseX()
-    let s:direction.x *= -1
+    let s:pointer.direction.x *= -1
 endfunction
 
 function s:reverseY()
-    let s:direction.y *= -1
+    let s:pointer.direction.y *= -1
 endfunction
 
 function s:horizon()
-    if s:pointer.y == s:pointerOld.y
+    if s:pointer.y == s:pointer.old.y
         call s:go()
     else
         call s:goBack()
@@ -150,7 +153,7 @@ function s:horizon()
 endfunction
 
 function s:vertical()
-    if s:pointer.x == s:pointerOld.x
+    if s:pointer.x == s:pointer.old.x
         call s:go()
     else
         call s:goBack()
