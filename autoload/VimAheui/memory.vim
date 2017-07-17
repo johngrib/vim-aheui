@@ -32,14 +32,14 @@ let s:queueNames = ['ㅇ']
 let s:pipeNames = ['ㅎ']
 
 function! VimAheui#memory#new()
-    let l:obj = {}
-    let l:obj.stack = s:initStack()
-    let l:obj.queue = s:initQueue()
-    let l:obj.pipe = s:initPipe()
-    let l:obj.getStack = function('<SID>getStack')
-    let l:obj.getQueue = function('<SID>getQueue')
-    let l:obj.getPipe = function('<SID>getPipe')
-    return l:obj
+
+    let l:collection = {}
+    call extend(l:collection, s:initStack())
+    call extend(l:collection, s:initQueue())
+    call extend(l:collection, s:initPipe())
+    let l:collection.get = function('<SID>get')
+
+    return l:collection
 endfunction
 
 function! s:initStack()
@@ -66,23 +66,10 @@ function! s:initPipe()
     return l:pipe
 endfunction
 
-function! s:getStack(name) dict
-    if ! has_key(self.stack, a:name)
-        throw a:name . ' stack is not exist'
+function! s:get(name) dict
+    if ! has_key(self, a:name)
+        throw a:name . ' is not exist'
     endif
-    return self.stack[(a:name)]
+    return self[(a:name)]
 endfunction
 
-function! s:getQueue(name) dict
-    if ! has_key(self.queue, a:name)
-        throw a:name . ' queue is not exist'
-    endif
-    return self.queue[(a:name)]
-endfunction
-
-function! s:getPipe(name) dict
-    if ! has_key(self.pipe, a:name)
-        throw a:name . ' pipe is not exist'
-    endif
-    return self.pipe[(a:name)]
-endfunction

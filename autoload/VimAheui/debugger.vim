@@ -6,6 +6,7 @@ let s:rawCode = ''
 let s:codeList = []
 let s:code = []
 let s:pointer = {}
+let s:memory = {}
 
 function! s:init()
     let s:util = s:getUtil()
@@ -13,6 +14,7 @@ function! s:init()
     let s:codeList = s:util.getCodeList(s:rawCode)
     let s:code = s:util.getDividedCode(s:codeList)
     let s:pointer = VimAheui#pointer#new()
+    let s:memory = VimAheui#memory#new()
 endfunction
 
 function! VimAheui#debugger#run()
