@@ -25,12 +25,17 @@ function! VimAheui#debugger#run()
 
     while v:true
 
-        let l:cmd = s:getCommand()
-
-        echom string(l:cmd)
+        let l:cmd = s:getCommand(s:pointer)
 
         try
-            call s:pointer.step(l:cmd)
+            let Cfunc = s:functions.get(l:cmd)
+            let l:cmd = Cfunc(l:cmd, s:memory)
+
+            if l:cmd[0] == 'ㅎ'
+                break
+            endif
+
+            let s:pointer = s:pointer.step(l:cmd)
         catch
             echom v:errmsg
             break
@@ -47,7 +52,7 @@ function! s:getUtil()
     return VimAheui#util#new()
 endfunction
 
-function! s:getCommand()
-    return s:code[(s:pointer.y)][(s:pointer.x)]
+function! s:getCommand(pointer)
+    return s:code[(a:pointer.y)][(a:pointer.x)]
 endfunction
 
