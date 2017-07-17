@@ -47,6 +47,7 @@ function! s:step(cmd) dict
     if s:validJung(l:jung)
         call self[l:jung]()
     endif
+    return self
 endfunction
 
 function! s:validJung(char)
