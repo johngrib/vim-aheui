@@ -8,6 +8,7 @@ function! VimAheui#stack#new(name)
     let l:obj.push = function('<SID>push')
     let l:obj.pop = function('<SID>pop')
     let l:obj.dup = function('<SID>dup')
+    let l:obj.swap = function('<SID>swap')
     let l:obj.size = function('<SID>size')
     let l:obj.toString = function('<SID>toString')
 
@@ -32,6 +33,15 @@ function! s:dup() dict
         throw 'dup error : ' . (self.name) . ' Stack is empty'
     endif
     let self.list += [(self.list[-1])]
+endfunction
+
+function! s:swap() dict
+    if len(self.list) < 2
+        throw 'swap error : ' . (self.name) . ' Stack size is ' . len(self.list)
+    endif
+    let l:tail = self.list[-1]
+    let self.list[-1] = self.list[-2]
+    let self.list[-2] = l:tail
 endfunction
 
 function! s:size() dict
