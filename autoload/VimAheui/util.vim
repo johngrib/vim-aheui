@@ -9,7 +9,7 @@ endfunction
 
 function! s:getCodeOnCursor()
     let l:temp = @z
-    execute 'normal! "zyip'
+    execute 'silent! normal! "zyip'
     let l:code = @z
     let @z = l:temp
     return l:code
