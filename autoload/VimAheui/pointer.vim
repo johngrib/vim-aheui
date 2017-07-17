@@ -14,7 +14,7 @@ function! VimAheui#pointer#new()
     let s:pointer.move = function('<SID>move')
     let s:pointer.step = function('<SID>step')
 
-    let s:pointer['ㅏ'] = function('<SID>right', [1])   " 12623 (max)
+    let s:pointer['ㅏ'] = function('<SID>right', [1])   " 12623 (min)
     let s:pointer['ㅑ'] = function('<SID>right', [2])   " 12625
     let s:pointer['ㅓ'] = function('<SID>right', [-1])  " 12627
     let s:pointer['ㅕ'] = function('<SID>right', [-2])  " 12629
@@ -25,7 +25,7 @@ function! VimAheui#pointer#new()
     let s:pointer['ㅠ'] = function('<SID>down', [2])    " 12640
 
     let s:pointer['ㅡ'] = function('<SID>horizon')      " 12641
-    let s:pointer['ㅣ'] = function('<SID>vertical')     " 12643 (min)
+    let s:pointer['ㅣ'] = function('<SID>vertical')     " 12643 (max)
     let s:pointer['ㅢ'] = function('<SID>reflect')      " 12642
 
     let s:pointer['ㅐ'] = function('<SID>move')         " 12624
