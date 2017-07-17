@@ -37,7 +37,10 @@ function! VimAheui#memory#new()
     call extend(l:collection, s:initStack())
     call extend(l:collection, s:initQueue())
     call extend(l:collection, s:initPipe())
+
+    let l:collection.selected = ''
     let l:collection.get = function('<SID>get')
+    let l:collection.getSelected = function('<SID>getSelected')
 
     return l:collection
 endfunction
@@ -73,3 +76,6 @@ function! s:get(name) dict
     return self[(a:name)]
 endfunction
 
+function! s:getSelected() dict
+    return self[self.selected]
+endfunction
