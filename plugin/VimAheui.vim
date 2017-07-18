@@ -10,5 +10,6 @@ if ! s:isValidVersion(v:version)
 endif
 
 command! -nargs=0 AheuiRun call VimAheui#debugger#run()
+command! -nargs=0 AheuiStep call VimAheui#debugger#step()
 
 command! -nargs=0 AheuiConsoleOpen call VimAheui#console#open()
