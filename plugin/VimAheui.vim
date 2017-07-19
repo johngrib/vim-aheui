@@ -12,4 +12,6 @@ endif
 command! -nargs=0 AheuiRun call VimAheui#debugger#run()
 command! -nargs=0 AheuiStep call VimAheui#debugger#step()
 
+nmap <F2> :AheuiStep<CR>
+
 command! -nargs=0 AheuiConsoleOpen call VimAheui#console#open()
