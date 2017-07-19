@@ -9,7 +9,7 @@ function! VimAheui#pointer#new(code)
     endif
 
     let s:pointer = {'x':0, 'y':0}
-    let s:pointer.direction = {'x':0, 'y':0}
+    let s:pointer.direction = {'x':0, 'y':1}
     let s:pointer.code = a:code
     let s:pointer.old = s:pointer
     let s:pointer.move = function('<SID>move')
