@@ -12,6 +12,12 @@ let s:jong = ['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','�
 
 function! VimAheui#hangul#divide(char)
 
+    let l:num = char2nr(a:char)
+
+    if l:num < 44032 || l:num > 55203
+        return ['', '', '', a:char]
+    endif
+
     let l:num = char2nr(a:char) - 44032
 
     let l:cho = l:num / 588

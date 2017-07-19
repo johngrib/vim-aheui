@@ -7,6 +7,7 @@ function! VimAheui#functions#new()
     let s:number = VimAheui#number#new()
 
     let l:func = {}
+    let l:func[''] = function('<SID>doNothing')     " 0
     let l:func['ㅇ'] = function('<SID>doNothing')   " 12615
     let l:func['ㅎ'] = function('<SID>end')         " 12622
     let l:func['ㄷ'] = function('<SID>add')         " 12599

@@ -2,14 +2,15 @@ scriptencoding utf-8
 
 let s:pointer = {}
 
-function! VimAheui#pointer#new()
+function! VimAheui#pointer#new(code)
 
     if ! empty(s:pointer)
         return s:reset()
     endif
 
     let s:pointer = {'x':0, 'y':0}
-    let s:pointer.direction = {'x':0, 'y':0}
+    let s:pointer.direction = {'x':0, 'y':1}
+    let s:pointer.code = a:code
     let s:pointer.old = s:pointer
     let s:pointer.move = function('<SID>move')
     let s:pointer.step = function('<SID>step')
@@ -28,6 +29,7 @@ function! VimAheui#pointer#new()
     let s:pointer['ㅣ'] = function('<SID>vertical')     " 12643 (max)
     let s:pointer['ㅢ'] = function('<SID>reflect')      " 12642
 
+    let s:pointer[''] = function('<SID>move')           " 0
     let s:pointer['ㅐ'] = function('<SID>move')         " 12624
     let s:pointer['ㅒ'] = function('<SID>move')         " 12626
     let s:pointer['ㅔ'] = function('<SID>move')         " 12628
@@ -44,15 +46,8 @@ endfunction
 
 function! s:step(cmd) dict
     let l:jung = a:cmd[1]
-    if s:validJung(l:jung)
-        call self[l:jung]()
-    endif
+    call self[l:jung]()
     return self
-endfunction
-
-function! s:validJung(char)
-    let l:nr = char2nr(a:char)
-    return (12623 <= l:nr) && (l:nr <= 12643)
 endfunction
 
 function! s:right(m) dict
@@ -111,6 +106,19 @@ function! s:move() dict
     let self.old = {'x':(self.x), 'y':(self.y)}
     let self.x += self.direction.x
     let self.y += self.direction.y
+
+    if self.x < 0
+        let self.x = len(self.code[self.y]) - 1
+    elseif self.x >= len(self.code[self.y])
+        let self.x = 0
+    endif
+
+    if self.y < 0
+        let self.y = len(self.code) - 1
+    elseif self.y >= len(self.code)
+        let self.y = 0
+    endif
+
 endfunction
 
 function! s:moveBack() dict
