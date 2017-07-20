@@ -132,6 +132,12 @@ function! s:compare(cmd, memory)
 endfunction
 
 function! s:condition(cmd, memory)
+    let l:mem = a:memory.getSelected()
+    if l:mem.pop() == 0
+        let a:cmd.reverse = 1
+        return a:cmd
+    endif
+    return a:cmd
 endfunction
 
 function! s:getString(value)
