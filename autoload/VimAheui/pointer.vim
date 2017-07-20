@@ -45,8 +45,7 @@ function! VimAheui#pointer#new(code)
 endfunction
 
 function! s:step(cmd) dict
-    let l:jung = a:cmd[1]
-    call self[l:jung]()
+    call self[(a:cmd.jung)]()
     return self
 endfunction
 

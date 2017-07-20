@@ -24,7 +24,8 @@ function! VimAheui#hangul#divide(char)
     let l:jung = (l:num % 588) / 28
     let l:jong = l:num % 28
 
-    return [s:cho[l:cho], s:jung[l:jung], s:jong[l:jong], a:char]
+    " return [s:cho[l:cho], s:jung[l:jung], s:jong[l:jong], a:char]
+    return {'cho': s:cho[l:cho], 'jung': s:jung[l:jung], 'jong': s:jong[l:jong], 'char': a:char}
 
 endfunction
 

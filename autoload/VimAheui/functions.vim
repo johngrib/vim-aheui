@@ -33,7 +33,7 @@ function! VimAheui#functions#new()
 endfunction
 
 function! s:get(cmd) dict
-    let l:cho = a:cmd[0]
+    let l:cho = a:cmd.cho
     if has_key(self, l:cho)
         return self[(l:cho)]
     endif
@@ -89,14 +89,14 @@ endfunction
 function! s:pop(cmd, memory) dict
     let l:mem = a:memory.getSelected()
     let l:v = l:mem.pop()
-    let l:result = self.print[a:cmd[2]](l:v)
+    let l:result = self.print[a:cmd.jong](l:v)
     echon l:result
     return a:cmd
 endfunction
 
 function! s:push(cmd, memory)
     let l:mem = a:memory.getSelected()
-    let l:num = s:number[(a:cmd[2])]
+    let l:num = s:number[(a:cmd.jong)]
     call l:mem.push(l:num)
     return a:cmd
 endfunction
@@ -112,7 +112,7 @@ function! s:swap(cmd, memory)
 endfunction
 
 function! s:select(cmd, memory)
-    let a:memory.selected = a:cmd[2]
+    let a:memory.selected = a:cmd.jong
     return a:cmd
 endfunction
 

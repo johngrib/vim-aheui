@@ -43,7 +43,7 @@ function! VimAheui#debugger#run()
             let Cfunc = s:functions.get(l:cmd)
             let l:cmd = Cfunc(l:cmd, s:memory)
 
-            if l:cmd[0] == 'ㅎ'
+            if l:cmd.cho == 'ㅎ'
                 break
             endif
 
@@ -62,11 +62,11 @@ function! VimAheui#debugger#step()
     if s:step_started == 1
         let l:cmd = s:getCommand(s:pointer)
         try
-            echom string(l:cmd[-1])
+            echom string(l:cmd.char)
             let Cfunc = s:functions.get(l:cmd)
             let l:cmd = Cfunc(l:cmd, s:memory)
 
-            if l:cmd[0] == 'ㅎ'
+            if l:cmd.cho == 'ㅎ'
                 let s:step_started = 0
                 return
             endif
