@@ -120,6 +120,15 @@ function! s:move(cmd, memory)
 endfunction
 
 function! s:compare(cmd, memory)
+    let l:mem = a:memory.getSelected()
+    let l:a = l:mem.pop()
+    let l:b = l:mem.pop()
+    if l:b >= l:a
+        call l:mem.push(1)
+    else
+        call l:mem.push(0)
+    endif
+    return a:cmd
 endfunction
 
 function! s:condition(cmd, memory)
