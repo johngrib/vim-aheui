@@ -41,12 +41,23 @@ function! VimAheui#pointer#new(code)
     let s:pointer['ㅞ'] = function('<SID>move')         " 12638
     let s:pointer['ㅟ'] = function('<SID>move')         " 12639
 
+    let s:pointer['reflect'] = function('<SID>reflect')
+    let s:pointer['move'] = function('<SID>move')
+    let s:pointer['moveBack'] = function('<SID>moveBack')
+    let s:pointer['reverseX'] = function('<SID>reverseX')
+    let s:pointer['reverseY'] = function('<SID>reverseY')
     return s:pointer
 endfunction
 
 function! s:step(cmd) dict
-    let l:jung = a:cmd[1]
-    call self[l:jung]()
+    call self[(a:cmd.jung)]()
+
+    if a:cmd.reverse == 1
+        let a:cmd.reverse = 0
+        call self.reflect()
+        call self.move()
+    endif
+
     return self
 endfunction
 
@@ -64,7 +75,7 @@ endfunction
 
 function! s:horizon() dict
     if self.y == self.old.y
-        call self.go()
+        call self.move()
     else
         call self.moveBack()
         call self.reverseX()
@@ -73,7 +84,7 @@ endfunction
 
 function! s:vertical() dict
     if self.x == self.old.x
-        call self.go()
+        call self.move()
     else
         call self.moveBack()
         call self.reverseY()
@@ -87,11 +98,11 @@ function! s:reflect() dict
 endfunction
 
 function! s:reverseX() dict
-    let self.direction.x *= -1
+    let self.direction.x = self.direction.x * -1
 endfunction
 
 function! s:reverseY() dict
-    let self.direction.y *= -1
+    let self.direction.y = self.direction.y * -1
 endfunction
 
 function! s:reset()
