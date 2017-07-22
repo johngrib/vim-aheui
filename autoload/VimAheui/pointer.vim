@@ -4,10 +4,6 @@ let s:pointer = {}
 
 function! VimAheui#pointer#new(code)
 
-    if ! empty(s:pointer)
-        return s:reset()
-    endif
-
     let s:pointer = {'x':0, 'y':0}
     let s:pointer.direction = {'x':0, 'y':1}
     let s:pointer.code = a:code
