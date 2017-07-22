@@ -125,7 +125,7 @@ function! s:swap(cmd, memory)
 endfunction
 
 function! s:select(cmd, memory)
-    let a:memory.selected = a:cmd.jong
+    call a:memory.select(a:cmd.jong)
     return a:cmd
 endfunction
 

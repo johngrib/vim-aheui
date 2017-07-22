@@ -30,6 +30,7 @@ call add(s:stackNames, 'ㅆ')    " 12614
 
 let s:queueNames = ['ㅇ']
 let s:pipeNames = ['ㅎ']
+let s:default = ''
 
 function! VimAheui#memory#new()
 
@@ -38,9 +39,10 @@ function! VimAheui#memory#new()
     call extend(l:collection, s:initQueue())
     call extend(l:collection, s:initPipe())
 
-    let l:collection.selected = ''
     let l:collection.get = function('<SID>get')
+    let l:collection.select = function('<SID>select')
     let l:collection.getSelected = function('<SID>getSelected')
+    let l:collection.selected = l:collection.select(s:default)
 
     return l:collection
 endfunction
@@ -76,6 +78,10 @@ function! s:get(name) dict
     return self[(a:name)]
 endfunction
 
+function! s:select(name) dict
+    let self.selected = self.get(a:name)
+endfunction
+
 function! s:getSelected() dict
-    return self[self.selected]
+    return self.selected
 endfunction
