@@ -7,22 +7,22 @@ function! VimAheui#functions#new()
     let s:number = VimAheui#number#new()
 
     let l:func = {}
-    let l:func[''] = function('<SID>doNothing')     " 0
-    let l:func['ㅇ'] = function('<SID>doNothing')   " 12615
-    let l:func['ㅎ'] = function('<SID>end')         " 12622
-    let l:func['ㄷ'] = function('<SID>add')         " 12599
-    let l:func['ㄸ'] = function('<SID>mul')         " 12600
-    let l:func['ㅌ'] = function('<SID>sub')         " 12620
-    let l:func['ㄴ'] = function('<SID>div')         " 12596
-    let l:func['ㄹ'] = function('<SID>mod')         " 12601
-    let l:func['ㅁ'] = function('<SID>pop')         " 12609
-    let l:func['ㅂ'] = function('<SID>push')        " 12610
-    let l:func['ㅃ'] = function('<SID>dup')         " 12611
-    let l:func['ㅍ'] = function('<SID>swap')        " 12621
-    let l:func['ㅅ'] = function('<SID>select')      " 12613
-    let l:func['ㅆ'] = function('<SID>move')        " 12614
-    let l:func['ㅈ'] = function('<SID>compare')     " 12616
-    let l:func['ㅊ'] = function('<SID>condition')   " 12618
+    let l:func[''] = function('<SID>doNothing')
+    let l:func['ㅇ'] = function('<SID>doNothing')
+    let l:func['ㅎ'] = function('<SID>end')
+    let l:func['ㄷ'] = function('<SID>backStepAble', [function('<SID>add', [], l:func), 2])
+    let l:func['ㄸ'] = function('<SID>backStepAble', [function('<SID>mul', [], l:func), 2])
+    let l:func['ㅌ'] = function('<SID>backStepAble', [function('<SID>sub', [], l:func), 2])
+    let l:func['ㄴ'] = function('<SID>backStepAble', [function('<SID>div', [], l:func), 2])
+    let l:func['ㄹ'] = function('<SID>backStepAble', [function('<SID>mod', [], l:func), 2])
+    let l:func['ㅁ'] = function('<SID>backStepAble', [function('<SID>pop', [], l:func), 1])
+    let l:func['ㅂ'] = function('<SID>push')
+    let l:func['ㅃ'] = function('<SID>backStepAble', [function('<SID>dup', [], l:func), 1])
+    let l:func['ㅍ'] = function('<SID>backStepAble', [function('<SID>swap', [], l:func), 2])
+    let l:func['ㅅ'] = function('<SID>select')
+    let l:func['ㅆ'] = function('<SID>backStepAble', [function('<SID>move', [], l:func), 1])
+    let l:func['ㅈ'] = function('<SID>backStepAble', [function('<SID>compare', [], l:func), 2])
+    let l:func['ㅊ'] = function('<SID>backStepAble', [function('<SID>condition', [], l:func), 1])
     let l:func.get = function('<SID>get')
 
     let l:func.print = {}
@@ -42,6 +42,15 @@ endfunction
 
 function! s:doNothing(cmd, memory)
     return a:cmd
+endfunction
+
+function! s:backStepAble(Method, limit, cmd, memory)
+    let l:mem = a:memory.getSelected()
+    if l:mem.size() < a:limit
+        let a:cmd.reverse = 1
+        return a:cmd
+    endif
+    return a:Method(a:cmd, a:memory)
 endfunction
 
 function! s:add(cmd, memory)
@@ -104,12 +113,14 @@ function! s:push(cmd, memory)
 endfunction
 
 function! s:dup(cmd, memory)
-    call a:memory.getSelected().dup()
+    let l:mem = a:memory.getSelected()
+    call l:mem.dup()
     return a:cmd
 endfunction
 
 function! s:swap(cmd, memory)
-    call a:memory.getSelected().swap()
+    let l:mem = a:memory.getSelected()
+    call l:mem.swap()
     return a:cmd
 endfunction
 
