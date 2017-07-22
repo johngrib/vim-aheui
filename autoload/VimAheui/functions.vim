@@ -89,8 +89,10 @@ endfunction
 function! s:pop(cmd, memory) dict
     let l:mem = a:memory.getSelected()
     let l:v = l:mem.pop()
-    let l:result = self.print[a:cmd.jong](l:v)
-    echon l:result
+    if has_key(self.print, a:cmd.jong)
+        let l:result = self.print[a:cmd.jong](l:v)
+        echon l:result
+    endif
     return a:cmd
 endfunction
 
@@ -117,6 +119,10 @@ function! s:select(cmd, memory)
 endfunction
 
 function! s:move(cmd, memory)
+    let l:mem = a:memory.getSelected()
+    let l:val = l:mem.pop()
+    call a:memory.get(a:cmd.jong).push(l:val)
+    return a:cmd
 endfunction
 
 function! s:compare(cmd, memory)
