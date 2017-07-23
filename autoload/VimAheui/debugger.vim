@@ -29,9 +29,12 @@ function! s:initialize()
     let s:start_time = reltime()
 endfunction
 
-function! s:close()
+function! s:close(isGetValue)
     let s:step_started = 0
     let l:seconds = reltimefloat(reltime(s:start_time))
+    if a:isGetValue
+        return VimAheui#printbuffer#get()
+    endif
     call VimAheui#printbuffer#pushStr(s:getElapsedTimeStr(l:seconds))
     call VimAheui#console#open()
 endfunction
@@ -86,7 +89,7 @@ function! s:isDebugStarted()
     return s:step_started == 1 && s:target_file == @%
 endfunction
 
-function! VimAheui#debugger#run(ignoreBreak)
+function! VimAheui#debugger#run(ignoreBreak, isGetValue)
 
     if ! s:isDebugStarted()
         call s:initialize()
@@ -100,8 +103,7 @@ function! VimAheui#debugger#run(ignoreBreak)
         let l:cmd = Cfunc(l:cmd, s:memory)
 
         if l:cmd.cho == 'ㅎ'
-            call s:close()
-            break
+            return s:close(a:isGetValue)
         endif
 
         let s:pointer = s:pointer.step(l:cmd)
