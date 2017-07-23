@@ -86,7 +86,7 @@ function! s:isDebugStarted()
     return s:step_started == 1 && s:target_file == @%
 endfunction
 
-function! VimAheui#debugger#run()
+function! VimAheui#debugger#run(ignoreBreak)
 
     if ! s:isDebugStarted()
         call s:initialize()
@@ -96,29 +96,22 @@ function! VimAheui#debugger#run()
 
     while v:true
 
-        try
-            let Cfunc = s:functions.get(l:cmd)
-            let l:cmd = Cfunc(l:cmd, s:memory)
+        let Cfunc = s:functions.get(l:cmd)
+        let l:cmd = Cfunc(l:cmd, s:memory)
 
-            if l:cmd.cho == 'ㅎ'
-                call s:close()
-                break
-            endif
-
-            let s:pointer = s:pointer.step(l:cmd)
-            let l:cmd = s:getCommand(s:pointer)
-
-            if l:cmd.break != 0
-                call s:moveCursor()
-                call VimAheui#inspector#open()
-                break
-            endif
-
-        catch
-            echom v:errmsg
-            let s:step_started = 0
+        if l:cmd.cho == 'ㅎ'
+            call s:close()
             break
-        endtry
+        endif
+
+        let s:pointer = s:pointer.step(l:cmd)
+        let l:cmd = s:getCommand(s:pointer)
+
+        if a:ignoreBreak == 0 && l:cmd.break != 0
+            call s:moveCursor()
+            call VimAheui#inspector#open()
+            break
+        endif
 
     endwhile
 
@@ -135,22 +128,17 @@ function! VimAheui#debugger#step()
     endif
 
     let l:cmd = s:getCommand(s:pointer)
-    try
-        let Cfunc = s:functions.get(l:cmd)
-        let l:cmd = Cfunc(l:cmd, s:memory)
+    let Cfunc = s:functions.get(l:cmd)
+    let l:cmd = Cfunc(l:cmd, s:memory)
 
-        if l:cmd.cho == 'ㅎ'
-            call s:close()
-            return
-        endif
+    if l:cmd.cho == 'ㅎ'
+        call s:close()
+        return
+    endif
 
-        let s:pointer = s:pointer.step(l:cmd)
-        call s:moveCursor()
-        call VimAheui#inspector#open()
-    catch
-        echom v:errmsg
-        let s:step_started = 0
-    endtry
+    let s:pointer = s:pointer.step(l:cmd)
+    call s:moveCursor()
+    call VimAheui#inspector#open()
 
 endfunction
 
