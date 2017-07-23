@@ -31,7 +31,6 @@ function! VimAheui#console#close()
 endfunction
 
 function! s:writeBuffer(text)
-    echom string(a:text)
     call append(line('$'), '')
     call setline(line('$'), a:text)
     call append(line('$'), '')
