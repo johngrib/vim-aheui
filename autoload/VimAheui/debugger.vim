@@ -13,11 +13,17 @@ let s:position = {}
 let s:breakPoint = []
 let s:step_started = 0
 
-function! s:initialize()
+function! s:initialize(code)
     let s:step_started = 1
     let s:target_file = @%
     let s:util = s:getUtil()
-    let s:rawCode = s:util.getCodeOnCursor()
+
+    if a:code == 0
+        let s:rawCode = s:util.getCodeOnCursor()
+    else
+        let s:rawCode = a:code
+    endif
+
     let s:codeList = s:util.getCodeList(s:rawCode)
     let s:position = s:getStartPosition()
     let s:code = s:util.getDividedCode(s:codeList)
@@ -89,10 +95,10 @@ function! s:isDebugStarted()
     return s:step_started == 1 && s:target_file == @%
 endfunction
 
-function! VimAheui#debugger#run(ignoreBreak, isGetValue)
+function! VimAheui#debugger#run(ignoreBreak, isGetValue, code)
 
     if ! s:isDebugStarted()
-        call s:initialize()
+        call s:initialize(a:code)
     endif
 
     let l:cmd = s:getCommand(s:pointer)
