@@ -39,6 +39,7 @@ function! VimAheui#memory#new()
     call extend(l:collection, s:initQueue())
     call extend(l:collection, s:initPipe())
 
+    let l:collection.toStringList = function('<SID>toStringList')
     let l:collection.get = function('<SID>get')
     let l:collection.select = function('<SID>select')
     let l:collection.getSelected = function('<SID>getSelected')
@@ -84,4 +85,18 @@ endfunction
 
 function! s:getSelected() dict
     return self.selected
+endfunction
+
+function! s:toStringList() dict
+    let l:list = []
+    for stack_name in s:stackNames
+        call add(l:list, self[stack_name].toString())
+    endfor
+    for queue_name in s:queueNames
+        call add(l:list, self[queue_name].toString())
+    endfor
+    for pipe_name in s:pipeNames
+        call add(l:list, self[pipe_name].toString())
+    endfor
+    return l:list
 endfunction

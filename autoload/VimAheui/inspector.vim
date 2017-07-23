@@ -1,8 +1,8 @@
 scriptencoding utf-8
 
-let s:buffer_name = '* VIM AHEUI CONSOLE *'
+let s:buffer_name = '* VIM AHEUI MEMORY INSPECTOR *'
 
-function! VimAheui#console#open()
+function! VimAheui#inspector#open()
 
     let l:edit_buffer = @%
 
@@ -12,18 +12,16 @@ function! VimAheui#console#open()
         call s:createNewBuffer()
     endif
 
-    let l:text = VimAheui#printbuffer#get()
-
-    if len(l:text) < 1
-        return
-    endif
+    let l:text = VimAheui#debugger#getMemoryStr()
+    let l:text += ['']
+    let l:text += VimAheui#printbuffer#get()
 
     call s:writeBuffer(l:text)
     call s:activateBuffer(l:edit_buffer)
 
 endfunction
 
-function! VimAheui#console#close()
+function! VimAheui#inspector#close()
     if bufexists(s:buffer_name)
         call s:activateBuffer(s:buffer_name)
         silent! bdelete!
@@ -31,15 +29,13 @@ function! VimAheui#console#close()
 endfunction
 
 function! s:writeBuffer(text)
-    echom string(a:text)
-    call append(line('$'), '')
+    silent! execute 'normal! gg"_dG'
     call setline(line('$'), a:text)
-    call append(line('$'), '')
-    execute 'normal! Gzb'
+    silent! execute 'normal! Gzb'
 endfunction
 
 function! s:createNewBuffer()
-    silent! execute 'belowright 10new ' . s:buffer_name
+    silent! execute 'vertical botright 50new ' . s:buffer_name
     call s:setInit()
 endfunction
 

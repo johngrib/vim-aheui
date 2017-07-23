@@ -9,7 +9,7 @@ endfunction
 
 function! s:getCodeOnCursor()
     let l:temp = @z
-    execute 'silent! normal! "zyip'
+    execute 'silent! normal! gg"zyG'
     let l:code = @z
     let @z = l:temp
     return l:code
@@ -20,8 +20,9 @@ function! s:getCursorChar()
 endfunction
 
 function! s:getCodeList(rawCode)
-    let l:codeList = split(a:rawCode, '\n')
+    let l:codeList = split(a:rawCode, '\n', 1)
     call map(l:codeList, {ind, val -> split(val, '.\zs')})
+    call map(l:codeList, {ind, val -> len(val) < 1 ? [''] : val})
     return l:codeList
 endfunction
 
