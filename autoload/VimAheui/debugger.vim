@@ -1,6 +1,7 @@
 scriptencoding utf-8
 
 let s:util = {}
+let s:target_file = ''
 
 let s:rawCode = ''
 let s:codeList = []
@@ -11,6 +12,7 @@ let s:functions = {}
 let s:position = {}
 
 function! s:init()
+    let s:target_file = @%
     let s:util = s:getUtil()
     let s:rawCode = s:util.getCodeOnCursor()
     let s:codeList = s:util.getCodeList(s:rawCode)
@@ -22,12 +24,11 @@ function! s:init()
 endfunction
 
 function! s:getStartPosition()
-    normal! Vip"_y
-    let l:pos = getpos("'<")
+    let l:pos = getpos("'.")
     let l:obj = {}
     let l:obj.buffer = l:pos[0]
-    let l:obj.line = l:pos[1]
-    let l:obj.col = l:pos[2]
+    let l:obj.line = 1
+    let l:obj.col = 1
     return l:obj
 endfunction
 
@@ -74,10 +75,9 @@ endfunction
 
 let s:step_started = 0
 function! VimAheui#debugger#step()
-    if s:step_started == 1
+    if s:step_started == 1 && s:target_file == @%
         let l:cmd = s:getCommand(s:pointer)
         try
-            echom string(l:cmd.char)
             let Cfunc = s:functions.get(l:cmd)
             let l:cmd = Cfunc(l:cmd, s:memory)
 
@@ -90,6 +90,7 @@ function! VimAheui#debugger#step()
             call cursor(s:position.line + s:pointer.y, 1)
             execute 'normal! ' . s:pointer.x . 'l'
 
+            call VimAheui#inspector#open()
         catch
             echom v:errmsg
             let s:step_started = 0

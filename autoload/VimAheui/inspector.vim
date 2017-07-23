@@ -13,6 +13,7 @@ function! VimAheui#inspector#open()
     endif
 
     let l:text = VimAheui#debugger#getMemoryStr()
+    let l:text += ['', VimAheui#printbuffer#get()]
 
     call s:writeBuffer(l:text)
     call s:activateBuffer(l:edit_buffer)
@@ -27,13 +28,13 @@ function! VimAheui#inspector#close()
 endfunction
 
 function! s:writeBuffer(text)
-    execute 'normal! ggdG'
+    silent! execute 'normal! gg"_dG'
     call setline(line('$'), a:text)
-    execute 'normal! Gzb'
+    silent! execute 'normal! Gzb'
 endfunction
 
 function! s:createNewBuffer()
-    silent! execute 'vertical botright 40new ' . s:buffer_name
+    silent! execute 'vertical botright 50new ' . s:buffer_name
     call s:setInit()
 endfunction
 
