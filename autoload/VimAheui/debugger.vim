@@ -31,6 +31,10 @@ function! s:getStartPosition()
     return l:obj
 endfunction
 
+function! VimAheui#debugger#getMemoryStr()
+    return s:memory.toStringList()
+endfunction
+
 function! VimAheui#debugger#run()
 
     call s:init()
