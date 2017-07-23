@@ -4,37 +4,57 @@ let s:buffer_name = '* VIM AHEUI CONSOLE *'
 
 function! VimAheui#console#open()
 
+    let l:edit_buffer = @%
+
     if bufexists(s:buffer_name)
-        call s:activateBuffer()
+        call s:activateBuffer(s:buffer_name)
     else
         call s:createNewBuffer()
-        let l:text = VimAheui#printbuffer#pop()
-        call append(line('$'), '')
-        call setline(line('$'), split(l:text, '\n'))
     endif
+
+    let l:text = VimAheui#printbuffer#pop()
+
+    if len(l:text) < 1
+        return
+    endif
+
+    call s:writeBuffer(l:text)
+    call s:activateBuffer(l:edit_buffer)
 
 endfunction
 
+function! VimAheui#console#close()
+    if bufexists(s:buffer_name)
+        call s:activateBuffer(s:buffer_name)
+        silent! bdelete!
+    endif
+endfunction
+
+function! s:writeBuffer(text)
+    call append(line('$'), '')
+    call setline(line('$'), split(a:text, '\n'))
+    call append(line('$'), '')
+    execute 'normal! Gzb'
+endfunction
+
 function! s:createNewBuffer()
-    execute 'new ' . s:buffer_name
+    silent! execute 'belowright 10new ' . s:buffer_name
     call s:setInit()
-    wincmd J
 endfunction
 
 function! s:setInit()
     setlocal bufhidden=wipe
     setlocal buftype=nofile
-    setlocal buftype=nowrite
+    " setlocal buftype=nowrite
     setlocal noswapfile
-    setlocal nowrap
-    setlocal laststatus=2
+    " setlocal nowrap
     setlocal fileencodings=utf-8
     setlocal lazyredraw
     setlocal nofoldenable
 endfunction
 
-function! s:activateBuffer()
-    let window = bufwinnr(s:buffer_name)
+function! s:activateBuffer(buffer_name)
+    let window = bufwinnr(a:buffer_name)
     if window == -1
         execute 'sbuffer ' . bufnr(s:buffer_name)
         wincmd J

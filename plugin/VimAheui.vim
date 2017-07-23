@@ -15,3 +15,4 @@ command! -nargs=0 AheuiStep call VimAheui#debugger#step()
 nmap <F2> :AheuiStep<CR>
 
 command! -nargs=0 AheuiConsoleOpen call VimAheui#console#open()
+command! -nargs=0 AheuiConsoleClose call VimAheui#console#close()
