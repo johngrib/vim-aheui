@@ -10,8 +10,11 @@ let s:pointer = {}
 let s:memory = {}
 let s:functions = {}
 let s:position = {}
+let s:breakPoint = []
+let s:step_started = 0
 
-function! s:init()
+function! s:initialize()
+    let s:step_started = 1
     let s:target_file = @%
     let s:util = s:getUtil()
     let s:rawCode = s:util.getCodeOnCursor()
@@ -22,6 +25,15 @@ function! s:init()
     let s:memory = VimAheui#memory#new()
     let s:functions = VimAheui#functions#new()
     call VimAheui#printbuffer#clear()
+    call s:setBreakPoint()
+    let s:start_time = reltime()
+endfunction
+
+function! s:close()
+    let s:step_started = 0
+    let l:seconds = reltimefloat(reltime(s:start_time))
+    call VimAheui#printbuffer#pushStr(s:getElapsedTimeStr(l:seconds))
+    call VimAheui#console#open()
 endfunction
 
 function! s:getStartPosition()
@@ -37,36 +49,78 @@ function! VimAheui#debugger#getMemoryStr()
     return s:memory.toStringList()
 endfunction
 
+function! s:setBreakPoint()
+
+    let s:breakPoint = []
+
+    for ind in range(97, 122)
+        let l:mark = "'" . nr2char(ind)
+        let l:pos = getpos(l:mark)
+        if l:pos[1] > 0 && l:pos[2] > 0
+            let l:col = s:findMultiByteColumn(l:pos[2], l:pos[1])
+            call add(s:breakPoint, {'x': (l:col), 'y': (l:pos[1])})
+        endif
+    endfor
+
+    for point in s:breakPoint
+        let s:code[point.y-1][point.x].break = 1
+    endfor
+
+endfunction
+
+function! s:findMultiByteColumn(x, y)
+    let l:chars = split(getline(a:y), '.\zs')
+    let l:sum = 0
+    let l:index = 0
+    for char in l:chars
+        let l:sum += len(char)
+        if l:sum >= a:x
+            return l:index
+        endif
+        let l:index += 1
+    endfor
+    return 0
+endfunction
+
+function! s:isDebugStarted()
+    return s:step_started == 1 && s:target_file == @%
+endfunction
+
 function! VimAheui#debugger#run()
 
-    call s:init()
+    if ! s:isDebugStarted()
+        call s:initialize()
+    endif
 
-    let s:start_time = reltime()
+    let l:cmd = s:getCommand(s:pointer)
 
     while v:true
-
-        let l:cmd = s:getCommand(s:pointer)
 
         try
             let Cfunc = s:functions.get(l:cmd)
             let l:cmd = Cfunc(l:cmd, s:memory)
 
             if l:cmd.cho == 'ㅎ'
+                call s:close()
                 break
             endif
 
             let s:pointer = s:pointer.step(l:cmd)
+            let l:cmd = s:getCommand(s:pointer)
+
+            if l:cmd.break != 0
+                call s:moveCursor()
+                call VimAheui#inspector#open()
+                break
+            endif
+
         catch
             echom v:errmsg
+            let s:step_started = 0
             break
         endtry
 
     endwhile
-
-    let l:seconds = reltimefloat(reltime(s:start_time))
-
-    call VimAheui#printbuffer#pushStr(s:getElapsedTimeStr(l:seconds))
-    call VimAheui#console#open()
 
 endfunction
 
@@ -74,33 +128,35 @@ function! s:getElapsedTimeStr(time)
     return "\nelapsed time: " . string(a:time) . ' sec'
 endfunction
 
-let s:step_started = 0
 function! VimAheui#debugger#step()
-    if s:step_started == 1 && s:target_file == @%
-        let l:cmd = s:getCommand(s:pointer)
-        try
-            let Cfunc = s:functions.get(l:cmd)
-            let l:cmd = Cfunc(l:cmd, s:memory)
 
-            if l:cmd.cho == 'ㅎ'
-                let s:step_started = 0
-                return
-            endif
-
-            let s:pointer = s:pointer.step(l:cmd)
-            call cursor(s:position.line + s:pointer.y, 1)
-            execute 'normal! ' . s:pointer.x . 'l'
-
-            call VimAheui#inspector#open()
-        catch
-            echom v:errmsg
-            let s:step_started = 0
-        endtry
-    else
-        let s:step_started = 1
-        call s:init()
-        call VimAheui#debugger#step()
+    if ! s:isDebugStarted()
+        call s:initialize()
     endif
+
+    let l:cmd = s:getCommand(s:pointer)
+    try
+        let Cfunc = s:functions.get(l:cmd)
+        let l:cmd = Cfunc(l:cmd, s:memory)
+
+        if l:cmd.cho == 'ㅎ'
+            call s:close()
+            return
+        endif
+
+        let s:pointer = s:pointer.step(l:cmd)
+        call s:moveCursor()
+        call VimAheui#inspector#open()
+    catch
+        echom v:errmsg
+        let s:step_started = 0
+    endtry
+
+endfunction
+
+function! s:moveCursor()
+    call cursor(s:position.line + s:pointer.y, 1)
+    execute 'normal! ' . s:pointer.x . 'l'
 endfunction
 
 function! s:getUtil()
