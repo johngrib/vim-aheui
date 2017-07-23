@@ -100,7 +100,7 @@ function! s:pop(cmd, memory) dict
     let l:v = l:mem.pop()
     if has_key(self.print, a:cmd.jong)
         let l:result = self.print[a:cmd.jong](l:v)
-        echon l:result
+        call VimAheui#printbuffer#push(l:result)
     endif
     return a:cmd
 endfunction

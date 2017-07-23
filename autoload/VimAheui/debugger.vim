@@ -35,6 +35,8 @@ function! VimAheui#debugger#run()
 
     call s:init()
 
+    let s:start_time = reltime()
+
     while v:true
 
         let l:cmd = s:getCommand(s:pointer)
@@ -55,6 +57,15 @@ function! VimAheui#debugger#run()
 
     endwhile
 
+    let l:seconds = reltimefloat(reltime(s:start_time))
+
+    call VimAheui#printbuffer#push(s:getElapsedTimeStr(l:seconds))
+    call VimAheui#console#open()
+
+endfunction
+
+function! s:getElapsedTimeStr(time)
+    return "\nelapsed time: " . string(a:time) . ' sec'
 endfunction
 
 let s:step_started = 0

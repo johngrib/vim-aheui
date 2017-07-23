@@ -8,13 +8,29 @@ function! VimAheui#console#open()
         call s:activateBuffer()
     else
         call s:createNewBuffer()
+        let l:text = VimAheui#printbuffer#pop()
+        call append(line('$'), '')
+        call setline(line('$'), split(l:text, '\n'))
     endif
 
 endfunction
 
 function! s:createNewBuffer()
     execute 'new ' . s:buffer_name
+    call s:setInit()
     wincmd J
+endfunction
+
+function! s:setInit()
+    setlocal bufhidden=wipe
+    setlocal buftype=nofile
+    setlocal buftype=nowrite
+    setlocal noswapfile
+    setlocal nowrap
+    setlocal laststatus=2
+    setlocal fileencodings=utf-8
+    setlocal lazyredraw
+    setlocal nofoldenable
 endfunction
 
 function! s:activateBuffer()
