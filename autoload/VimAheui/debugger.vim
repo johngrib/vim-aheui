@@ -21,6 +21,7 @@ function! s:init()
     let s:pointer = VimAheui#pointer#new(s:code)
     let s:memory = VimAheui#memory#new()
     let s:functions = VimAheui#functions#new()
+    call VimAheui#printbuffer#clear()
 endfunction
 
 function! s:getStartPosition()
@@ -64,7 +65,7 @@ function! VimAheui#debugger#run()
 
     let l:seconds = reltimefloat(reltime(s:start_time))
 
-    call VimAheui#printbuffer#push(s:getElapsedTimeStr(l:seconds))
+    call VimAheui#printbuffer#pushStr(s:getElapsedTimeStr(l:seconds))
     call VimAheui#console#open()
 
 endfunction

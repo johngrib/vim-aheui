@@ -12,7 +12,7 @@ function! VimAheui#console#open()
         call s:createNewBuffer()
     endif
 
-    let l:text = VimAheui#printbuffer#pop()
+    let l:text = VimAheui#printbuffer#get()
 
     if len(l:text) < 1
         return
@@ -31,8 +31,9 @@ function! VimAheui#console#close()
 endfunction
 
 function! s:writeBuffer(text)
+    echom string(a:text)
     call append(line('$'), '')
-    call setline(line('$'), split(a:text, '\n'))
+    call setline(line('$'), a:text)
     call append(line('$'), '')
     execute 'normal! Gzb'
 endfunction

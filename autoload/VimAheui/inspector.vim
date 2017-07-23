@@ -13,7 +13,7 @@ function! VimAheui#inspector#open()
     endif
 
     let l:text = VimAheui#debugger#getMemoryStr()
-    let l:text += ['', VimAheui#printbuffer#get()]
+    let l:text += VimAheui#printbuffer#get()
 
     call s:writeBuffer(l:text)
     call s:activateBuffer(l:edit_buffer)
