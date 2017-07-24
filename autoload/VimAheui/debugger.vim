@@ -19,7 +19,7 @@ function! s:initialize(code)
     let s:util = s:getUtil()
 
     if len(a:code) <= 1
-        let s:rawCode = s:util.getCodeOnCursor()
+        let s:rawCode = VimAheui#util#getCodeOnEditor()
         let s:position = s:getStartPosition()
     else
         let s:rawCode = a:code
