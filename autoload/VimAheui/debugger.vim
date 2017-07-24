@@ -12,7 +12,21 @@ let s:position = {}
 let s:breakPoint = []
 let s:step_started = 0
 
-function! VimAheui#debugger#execute()
+function! VimAheui#debugger#execute(code)
+
+    call s:initialize(a:code)
+
+    while v:true
+
+        let l:cmd = s:execute()
+
+        if s:isFinished(l:cmd)
+            let s:step_started = 0
+            return VimAheui#printbuffer#get()
+        endif
+
+        let s:pointer = s:pointer.step(l:cmd)
+    endwhile
 endfunction
 
 function! VimAheui#debugger#run(ignoreBreak, isGetValue, code)
@@ -20,8 +34,6 @@ function! VimAheui#debugger#run(ignoreBreak, isGetValue, code)
         let l:code = VimAheui#util#getCodeOnEditor()
         call s:initialize(l:code)
     endif
-
-    let Stop = s:procedure('<SID>moveCursor', 'VimAheui#inspector#open')
 
     while v:true
 
