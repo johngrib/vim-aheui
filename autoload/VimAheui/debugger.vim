@@ -172,6 +172,33 @@ function! VimAheui#debugger#step()
 
 endfunction
 
+function! VimAheui#debugger#runUntilBreak()
+
+    if ! s:isDebugStarted()
+        call s:initialize(0)
+    endif
+
+    let Stop = s:procedure('<SID>moveCursor', 'VimAheui#inspector#open')
+
+    while v:true
+
+        let l:cmd = s:execute()
+
+        if s:isFinished(l:cmd)
+            return s:close(0)
+        endif
+
+        let s:pointer = s:pointer.step(l:cmd)
+
+        if l:cmd.break != 0
+            return Stop()
+        endif
+
+    endwhile
+endfunction
+
+
+
 function! s:execute()
     let l:cmd = s:getCommand(s:pointer)
     let Cfunc = s:functions.get(l:cmd)
