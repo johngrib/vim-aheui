@@ -18,14 +18,15 @@ function! s:initialize(code)
     let s:target_file = @%
     let s:util = s:getUtil()
 
-    if a:code == 0
+    if len(a:code) <= 1
         let s:rawCode = s:util.getCodeOnCursor()
+        let s:position = s:getStartPosition()
     else
         let s:rawCode = a:code
+        let s:position = {'line': 1, 'col': 1}
     endif
 
     let s:codeList = s:util.getCodeList(s:rawCode)
-    let s:position = s:getStartPosition()
     let s:code = s:util.getDividedCode(s:codeList)
     let s:pointer = VimAheui#pointer#new(s:code)
     let s:memory = VimAheui#memory#new()
@@ -132,7 +133,7 @@ endfunction
 function! VimAheui#debugger#step()
 
     if ! s:isDebugStarted()
-        call s:initialize()
+        call s:initialize(0)
     endif
 
     let l:cmd = s:getCommand(s:pointer)
