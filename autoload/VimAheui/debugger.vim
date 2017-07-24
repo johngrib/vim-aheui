@@ -113,7 +113,6 @@ function! s:procedure(...)
     return function('<SID>chain', l:func_list)
 endfunction
 
-
 function! VimAheui#debugger#run(ignoreBreak, isGetValue, code)
 
     if ! s:isDebugStarted()
@@ -126,19 +125,15 @@ function! VimAheui#debugger#run(ignoreBreak, isGetValue, code)
         let Stop = s:procedure('<SID>moveCursor', 'VimAheui#inspector#open')
     endif
 
-    let l:cmd = s:getCommand(s:pointer)
-
     while v:true
 
-        let Cfunc = s:functions.get(l:cmd)
-        let l:cmd = Cfunc(l:cmd, s:memory)
+        let l:cmd = s:execute()
 
-        if l:cmd.cho == 'ㅎ'
+        if s:isFinished(l:cmd)
             return s:close(a:isGetValue)
         endif
 
         let s:pointer = s:pointer.step(l:cmd)
-        let l:cmd = s:getCommand(s:pointer)
 
         if l:cmd.break != 0
             return Stop()
@@ -146,6 +141,10 @@ function! VimAheui#debugger#run(ignoreBreak, isGetValue, code)
 
     endwhile
 
+endfunction
+
+function! s:isFinished(cmd)
+    return a:cmd.cho == 'ㅎ'
 endfunction
 
 function! s:doNothing()
@@ -161,19 +160,22 @@ function! VimAheui#debugger#step()
         call s:initialize(0)
     endif
 
-    let l:cmd = s:getCommand(s:pointer)
-    let Cfunc = s:functions.get(l:cmd)
-    let l:cmd = Cfunc(l:cmd, s:memory)
+    let l:cmd = s:execute()
 
-    if l:cmd.cho == 'ㅎ'
-        call s:close()
-        return
+    if s:isFinished(l:cmd)
+        return s:close(0)
     endif
 
     let s:pointer = s:pointer.step(l:cmd)
     call s:moveCursor()
     call VimAheui#inspector#open()
 
+endfunction
+
+function! s:execute()
+    let l:cmd = s:getCommand(s:pointer)
+    let Cfunc = s:functions.get(l:cmd)
+    return Cfunc(l:cmd, s:memory)
 endfunction
 
 function! s:moveCursor()
