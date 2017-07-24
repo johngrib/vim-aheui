@@ -96,10 +96,34 @@ function! s:isDebugStarted()
     return s:step_started == 1 && s:target_file == @%
 endfunction
 
+function! VimAheui#debugger#execute()
+endfunction
+
+function! s:chain(...)
+    for Func in a:000
+        call Func()
+    endfor
+endfunction
+
+function! s:procedure(...)
+    let l:func_list = []
+    for func_name in a:000
+        call add(l:func_list, function(func_name))
+    endfor
+    return function('<SID>chain', l:func_list)
+endfunction
+
+
 function! VimAheui#debugger#run(ignoreBreak, isGetValue, code)
 
     if ! s:isDebugStarted()
         call s:initialize(a:code)
+    endif
+
+    if a:ignoreBreak == 1
+        let Stop = function('<SID>doNothing')
+    else
+        let Stop = s:procedure('<SID>moveCursor', 'VimAheui#inspector#open')
     endif
 
     let l:cmd = s:getCommand(s:pointer)
@@ -116,14 +140,15 @@ function! VimAheui#debugger#run(ignoreBreak, isGetValue, code)
         let s:pointer = s:pointer.step(l:cmd)
         let l:cmd = s:getCommand(s:pointer)
 
-        if a:ignoreBreak == 0 && l:cmd.break != 0
-            call s:moveCursor()
-            call VimAheui#inspector#open()
-            break
+        if l:cmd.break != 0
+            return Stop()
         endif
 
     endwhile
 
+endfunction
+
+function! s:doNothing()
 endfunction
 
 function! s:getElapsedTimeStr(time)
