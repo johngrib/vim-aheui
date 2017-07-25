@@ -73,16 +73,27 @@ function! VimAheui#debugger#step()
         call s:initialize(l:code)
     endif
 
+    let l:loop = 1
     let l:cmd = s:getCommand(s:pointer)
-    let l:cmd = s:execute(l:cmd)
 
-    if s:isFinished(l:cmd)
-        return s:close()
-    endif
+    while l:loop == 1
 
-    let s:pointer = s:pointer.step(l:cmd)
+        let l:cmd = s:execute(l:cmd)
+
+        if s:isFinished(l:cmd)
+            return s:close()
+        endif
+        let s:pointer = s:pointer.step(l:cmd)
+        let l:cmd = s:getCommand(s:pointer)
+
+        let l:loop = l:cmd.break == 0 && l:cmd.stepPass == 1
+    endwhile
+
     call s:moveCursor()
     call VimAheui#inspector#open()
+endfunction
+
+function! s:oneStep()
 endfunction
 
 function! s:initialize(rawCode)
