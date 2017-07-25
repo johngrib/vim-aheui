@@ -1,13 +1,12 @@
 function! VimAheui#util#new()
     let l:obj = {}
-    let l:obj.getCodeOnCursor = function('<SID>getCodeOnCursor')
     let l:obj.getCursorChar = function('<SID>getCursorChar')
     let l:obj.getCodeList = function('<SID>getCodeList')
     let l:obj.getDividedCode = function('<SID>getDividedCode')
     return l:obj
 endfunction
 
-function! s:getCodeOnCursor()
+function! VimAheui#util#getCodeOnEditor()
     let l:temp = @z
     execute 'silent! normal! gg"zyG'
     let l:code = @z
