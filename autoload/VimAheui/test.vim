@@ -285,11 +285,13 @@ function! VimAheui#test#run()
 
     for item in s:test_case
         let l:result = VimAheui#debugger#execute(item.code)
-        if string(l:result) == string(item.expect)
+        if l:result == string(join(item.expect, "\n"))
             let l:success += 1
+            echom 'passed: ' . item.id
         else
             let l:failed += 1
             call add(l:failed_id, item.id)
+            echom 'failed: ' . item.id
         endif
     endfor
 
