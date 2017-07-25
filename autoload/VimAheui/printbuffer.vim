@@ -6,6 +6,10 @@ function! VimAheui#printbuffer#get()
     return s:text
 endfunction
 
+function! VimAheui#printbuffer#getString()
+    return string(join(s:text, "\n"))
+endfunction
+
 function! VimAheui#printbuffer#push(char)
     if a:char =~ "\n"
         call add(s:text, '')

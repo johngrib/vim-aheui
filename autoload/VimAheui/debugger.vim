@@ -24,7 +24,7 @@ function! VimAheui#debugger#execute(code)
     endwhile
 
     let s:step_started = 0
-    return VimAheui#printbuffer#get()
+    return VimAheui#printbuffer#getString()
 endfunction
 
 function! VimAheui#debugger#run()
