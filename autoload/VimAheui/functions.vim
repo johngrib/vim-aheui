@@ -33,11 +33,7 @@ function! VimAheui#functions#new()
 endfunction
 
 function! s:get(cmd) dict
-    let l:cho = a:cmd.cho
-    if has_key(self, l:cho)
-        return self[(l:cho)]
-    endif
-    throw l:cho . ' function is not exists'
+    return get(self, a:cmd.cho, self[''])
 endfunction
 
 function! s:doNothing(cmd, memory)
