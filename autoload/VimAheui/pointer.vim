@@ -114,16 +114,16 @@ function! s:move() dict
     let self.x += self.direction.x
     let self.y += self.direction.y
 
-    if self.x < 0
-        let self.x = len(self.code[self.y]) - 1
-    elseif self.x >= len(self.code[self.y])
-        let self.x = 0
-    endif
-
     if self.y < 0
         let self.y = len(self.code) - 1
     elseif self.y >= len(self.code)
         let self.y = 0
+    endif
+
+    if self.x < 0
+        let self.x = len(self.code[self.y]) - 1
+    elseif self.x >= len(self.code[self.y])
+        let self.x = 0
     endif
 
 endfunction

@@ -439,6 +439,105 @@ function! s:case_hammer()
     return l:case
 endfunction
 
+function! s:case_sijo_div()
+    " https://github.com/aheui/snippets/blob/master/literature/sijo-div.aheui
+    let l:case = {}
+    let l:case.id = 'sijo-div'
+    let l:case.args = [249, 12]
+    let l:case.code = [
+        \ '첩첩산 방방곡곡 굽굽이 찾아들어'
+        \,'겹겹골 심심봉봉 둘둘러 돌아들어'
+        \,'아희야 하늘나리가 멍멍하게 피누나']
+    let l:case.expect = [20]
+    return l:case
+endfunction
+
+function! s:case_sweat()
+    " https://github.com/aheui/snippets/blob/master/literature/sweat.aheui
+    let l:case = {}
+    let l:case.id = 'sweat'
+    let l:case.args = []
+    let l:case.code = [
+        \ '발받악에 땀 망희 났어'
+        \, ''
+        \,'http://comic.naver.com/webtoon/detail.nhn?titleId=678499&no=15&weekday=fri']
+    let l:case.expect = [15]
+    return l:case
+endfunction
+
+function! s:case_quine_puzzlet()
+    " https://github.com/aheui/snippets/blob/master/quine/quine.puzzlet.aheui
+    let l:case = {}
+    let l:case.id = 'quine.puzzlet'
+    let l:case.args = []
+    let l:case.code = [
+        \ '버분벗벖벓법벌벋벖법벍벋벌벋벌벗벌벍벌벋벗벓벖법벌벋벖벌벗벓벌벋벗벌벗벓벌벋벖벋벓벋벌벋벗벓벖법벌벋벌법법벓벌벋벗벖벓법벌벋벖법벍벋벌벋벌벗벖벓벌벋버벖법벍벋벌벋벒벋벓벓벌벋벖벍벍벌벍벋벗법벌벒벌벋벗벋법벓벌벋벖벋벓벋벌벋벖벓벖벍벌벋벗벌법벓벖벋벒벋벓벓벌벋벌벋벌벓벌벋벖벖벌벋벌벋벗벌벒법벌벋벗벍벍법벌벋버벗벓벗벋벖벋벗법벗벌벌벋벖벌벗벓벌벋벖벌벗벓벌벋벗벍벗벓벖벋벗벗벍벒벌벋벗벋벒벌벖벋벌벖벗벓벌벋벖벌벋법벍벋벖벋벖벋벍벋버벖벍벒벋벍벋벗벗벌벗벍벋벗벌벗벓벌벋벖벌벋벖벌벋벌벌벗벓벌벋벗벒벍벗벌벋벗벒벌벓벌벋벗법벋벓벌벋벖벋벒벒벌벋벗벋법벓벌벋벗벖벓벗벍벋버벖벋벓벗벖벋벗벒벌벋벖벋벗벖벓벗벍벋벖벗벒벋벌벋벌벖벗벓벌벋벋벖벗벓벌벋벗법벋법벌벋벖벖벗벓벌벋벖벍벒벌벌벋벗벋벖벓벖벋벖법벓벓벖벋벗벖벋벒벌벋벖벍벌법벖벋버벖벖벌벋벌벋벖벋벒벒벌벋벍벗벌벗벖벋벖벖벌벋벌벋벖벒벍법벖벋벓벌벋벓벌벋벖벒벍법벖벋벗법벌벗벌벋벖벒벍법벖벋벗법벋벓벌벋벖벒벍법벖벋벖벒벗벗벖벋벌벖벒벖벌벋버벒법법벓벌벋벖법벍벋벌벋벗법벌벒벌벋벋벗벓벋벖벋벗법벌벒벌벋벌법벋벍벌벋벌법법벓벌벋벌법법벓벌벋벖법법벓벌벋벗벖벓법벌벋벗벖벓법벌벋벗법벋법벌벋버벖벌법벌벌벋벗벗벌벗벍벋벋벖벗벓벌벋벗벓벖법벌벋벗벓벖법벌벋벌벖벗벓벌벋벗벖벗벓벌벋벗벖벗벓벌벋벗벓벖법벌벋벗벓벖법벌벋벒벋법벓벌벋벗벌벋벓벌벋'
+        \,'뱘벏따따밠밠밣따따밡타뚜'
+        \,'두떠떠범벓벓멓뻐쎁뻐더벗'
+        \,'맣쀼야뱐야냐야뱞야다샅뿌다'
+        \,'쓬빠추초러밤두밡밣도토싸소'
+        \,'토번뿌뱐본노받로반타포'
+        \,'파표밣쟈뽀차발발또숰'
+        \,'땨뗘다볋붏처무뎌번뻐희붏더'
+        \,'봃더떠벓따뎌반발따뫃더떠']
+    let l:case.expect = l:case.code
+    return l:case
+endfunction
+
+function! s:case_standard_bieup_char()
+    " https://github.com/aheui/snippets/blob/master/standard/bieup-char.aheui
+    let l:case = {}
+    let l:case.id = 'standard/bieup-char'
+    let l:case.args = ['1', '+', '한', '글', '😃', '😄']
+    let l:case.code = ['밯맣밯맣밯맣밯맣밯맣밯맣희']
+    let l:case.expect = ['1+한글😃😄']
+    return l:case
+endfunction
+
+function! s:case_standard_bieup_sign()
+    " https://github.com/aheui/snippets/blob/master/standard/bieup-sign.aheui
+    let l:case = {}
+    let l:case.id = 'standard/bieup-sign'
+    let l:case.args = [0, 42, -42]
+    let l:case.code = ['방망방망방망희']
+    let l:case.expect = ['042-42']
+    return l:case
+endfunction
+
+function! s:case_standard_bieup()
+    " https://github.com/aheui/snippets/blob/master/standard/bieup.aheui
+    let l:case = {}
+    let l:case.id = 'standard/bieup'
+    let l:case.args = ['밯', 3]
+    let l:case.code = [
+        \ '박반받발밤밥밧밪밫밬밭붚'
+        \,'뭉멍멍멍멍멍멍멍멍멍멍멍'
+        \,'밖밗밙밚밝밞밟밠밡밢밣밦붔'
+        \,'뭉멍멍멍멍멍멍멍멍멍멍멍멍'
+        \,'밯망방망희'
+        \,''
+        \,'ㅂ에 ㅇ받침이 있으면 입력받은 숫자를, ㅎ받침이 있으면 입력받은 문자의 유니코드 코드값을 저장공간에 집어넣습니다. 단, ㅂ의 경우 나머지 받침이 있으면 그 받침을 구성하는 선의 수에 따른 값을 집어넣습니다. 받침이 없으면 0을 집어넣습니다.']
+    let l:case.expect = ['4434324453224689979975544481753']
+    return l:case
+endfunction
+
+function! s:case_standard_border()
+    " https://github.com/aheui/snippets/blob/master/standard/border.aheui
+    let l:case = {}
+    let l:case.id = 'standard/bieup'
+    let l:case.args = []
+    let l:case.code = [
+        \ '볻         망볿'
+        \,'ㅇ         ㅇ희'
+        \,'멍         붒'
+        \,'ㅇ         ㅇ몽'
+        \,''
+        \,''
+        \,'                  표준: 코드 공간의 한 쪽 끝에 다다르면 커서는 반대편 끝으로 이동합니다. 이는 Funge-98의 wrapping algorithm과 동일합니다.']
+    let l:case.expect = [369]
+    return l:case
+endfunction
+
 function! s:prepare()
 
     let s:test_case = []
@@ -456,6 +555,13 @@ function! s:prepare()
     call add(s:test_case, function('<SID>case_pokryong'))
     call add(s:test_case, function('<SID>case_ddeok'))
     call add(s:test_case, function('<SID>case_hammer'))
+    call add(s:test_case, function('<SID>case_sijo_div'))
+    call add(s:test_case, function('<SID>case_sweat'))
+    call add(s:test_case, function('<SID>case_quine_puzzlet'))
+    call add(s:test_case, function('<SID>case_standard_bieup_char'))
+    call add(s:test_case, function('<SID>case_standard_bieup_sign'))
+    call add(s:test_case, function('<SID>case_standard_bieup'))
+    call add(s:test_case, function('<SID>case_standard_border'))
 
     return s:test_case
 endfunction
@@ -464,6 +570,4 @@ function! s:is_64bit_unsigned_integer_available()
     let l:vim_long_max = 9223372036854775807     " 2^63 - 1
     return l:vim_long_max + 1 > 0
 endfunction
-
-
 
