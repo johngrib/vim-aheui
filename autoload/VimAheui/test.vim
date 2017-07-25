@@ -538,6 +538,23 @@ function! s:case_standard_border()
     return l:case
 endfunction
 
+function! s:case_standard_chieut()
+    " https://github.com/aheui/snippets/blob/master/standard/chieut.aheui
+    let l:case = {}
+    let l:case.id = 'standard/chieut'
+    let l:case.args = []
+    let l:case.code = [
+        \ '아ㅇㅇ부'
+        \,'희멍번처붇'
+        \,'ㅇㅇㅇ분멍'
+        \,'희멍번차붇'
+        \,'ㅇㅇㅇ희멍'
+        \,''
+        \,'ㅊ은 조건 명령으로 저장공간에서 값 하나를 뽑아내서 그 값이 0이 아니면 홀소리의 방향대로, 0이면 그 반대 방향대로 갑니다.']
+    let l:case.expect = [33]
+    return l:case
+endfunction
+
 function! s:prepare()
 
     let s:test_case = []
@@ -562,6 +579,7 @@ function! s:prepare()
     call add(s:test_case, function('<SID>case_standard_bieup_sign'))
     call add(s:test_case, function('<SID>case_standard_bieup'))
     call add(s:test_case, function('<SID>case_standard_border'))
+    call add(s:test_case, function('<SID>case_standard_chieut'))
 
     return s:test_case
 endfunction
