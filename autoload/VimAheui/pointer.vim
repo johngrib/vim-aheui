@@ -74,7 +74,7 @@ function! s:horizon() dict
         call self.move()
     else
         call self.moveBack()
-        call self.reverseX()
+        call self.reverseY()
     endif
 endfunction
 
@@ -83,7 +83,7 @@ function! s:vertical() dict
         call self.move()
     else
         call self.moveBack()
-        call self.reverseY()
+        call self.reverseX()
     endif
 endfunction
 

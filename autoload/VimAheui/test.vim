@@ -373,7 +373,7 @@ function! s:case_32bit_integer()
         \,''
         \,'구현체의 정수 범위를 확인하기 위한 예제입니다.'
         \,'2^33을 제대로 출력할 수 있는지 확인합니다.']
-    let l:case.expect = ['8589934592']
+    let l:case.expect = [8589934592]
     return l:case
 endfunction
 
@@ -389,7 +389,7 @@ function! s:case_64bit_integer()
         \,''
         \,'구현체의 정수 범위를 확인하기 위한 예제입니다.'
         \,'2^65을 제대로 출력할 수 있는지 확인합니다.']
-    let l:case.expect = ['36893488147419103232']
+    let l:case.expect = [36893488147419103232]
     return l:case
 endfunction
 
@@ -400,6 +400,42 @@ function! s:case_ha_ut()
     let l:case.args = []
     let l:case.code = ['삶은밥과야근밥샤주세양♡밥사밥사밥사밥사밥사땅땅땅빵☆따밦내발따밦다빵맣밥밥밥내놔밥줘밥밥밥밗땅땅땅박밝땅땅딻타밟타맣밦밣따박타맣밦밣따박타맣밦밣따박타맣박빵빵빵빵따따따따맣희']
     let l:case.expect = ['하읏... ']
+    return l:case
+endfunction
+
+function! s:case_pokryong()
+    " https://github.com/aheui/snippets/blob/master/literary/pokryong.aheui
+    let l:case = {}
+    let l:case.id = 'pokryong'
+    let l:case.args = [1024]
+    let l:case.code = [
+        \ '육체는　단명하고'
+        \,'근성은　영원한것'
+        \,'방산반밧나뿌서어뎐근성'
+        \,'대류…분선창사반나산분'
+        \,'폭룡이탄뭉폭룡의뇨시볏'
+        \,'최고다아하＃김끼룩제작']
+    let l:case.expect = [10]
+    return l:case
+endfunction
+
+function! s:case_ddeok()
+    " https://github.com/aheui/snippets/blob/master/literature/ddeok.out
+    let l:case = {}
+    let l:case.id = 'ddeok'
+    let l:case.args = []
+    let l:case.code = ['발냄새엔 망개떡 밤삶으면 홍두깨떡']
+    let l:case.expect = [1]
+    return l:case
+endfunction
+
+function! s:case_hammer()
+    " https://github.com/aheui/snippets/blob/master/literature/hammer.aheui
+    let l:case = {}
+    let l:case.id = 'hammer'
+    let l:case.args = []
+    let l:case.code = ['바쁜 망치에 흘린 못 없다']
+    let l:case.expect = [0]
     return l:case
 endfunction
 
@@ -417,6 +453,9 @@ function! s:prepare()
         call add(s:test_case, function('<SID>case_64bit_integer'))
     endif
     call add(s:test_case, function('<SID>case_ha_ut'))
+    call add(s:test_case, function('<SID>case_pokryong'))
+    call add(s:test_case, function('<SID>case_ddeok'))
+    call add(s:test_case, function('<SID>case_hammer'))
 
     return s:test_case
 endfunction
