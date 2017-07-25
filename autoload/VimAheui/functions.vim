@@ -103,7 +103,7 @@ endfunction
 
 function! s:push(cmd, memory)
     let l:mem = a:memory.getSelected()
-    let l:num = s:number[(a:cmd.jong)]()
+    let l:num = s:number[(a:cmd.jong)](a:memory)
     call l:mem.push(l:num)
     return a:cmd
 endfunction

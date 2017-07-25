@@ -43,6 +43,7 @@ function! VimAheui#memory#new()
     let l:collection.get = function('<SID>get')
     let l:collection.select = function('<SID>select')
     let l:collection.getSelected = function('<SID>getSelected')
+    let l:collection.args = VimAheui#queue#new('args')
     call l:collection.select(s:default)
 
     return l:collection

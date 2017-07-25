@@ -14,7 +14,7 @@ function! VimAheui#test#run()
 
     for Case in s:test_case
         let l:item = Case()
-        let l:result = VimAheui#debugger#execute(join(l:item.code, "\n"))
+        let l:result = VimAheui#debugger#execute(join(l:item.code, "\n"), l:item.args)
         if l:result == string(join(l:item.expect, "\n"))
             let l:success += 1
             echom 'passed: ' . l:item.id
@@ -37,6 +37,7 @@ function! s:case_99bottles()
     " https://github.com/aheui/snippets/blob/master/99bottles/99bottles.aheui
     let l:case = {}
     let l:case.id = '99bottles'
+    let l:case.args = []
     let l:case.code = [
         \ '산발발밥따따빠빠빠빠빠빠빠빠빠뿌'
         \,'쑱썴썳썲썱썰썯썮썭뻐뻐뻐뻐뻐뻐뻐'
@@ -280,6 +281,7 @@ function! s:case_99dan()
     " https://github.com/aheui/snippets/blob/master/99dan/99dan.aheui
     let l:case = {}
     let l:case.id = '99dan'
+    let l:case.args = []
     let l:case.code = [
         \  '삼바반빠빠빠빠빠빠아아우'
         \, '우어어번벋범벌벖벍벓벒석'
@@ -304,10 +306,21 @@ function! s:case_99dan()
     return l:case
 endfunction
 
+function! s:case_bahmanghui()
+    " https://github.com/aheui/snippets/tree/master/bahmanghui
+    let l:case = {}
+    let l:case.id = 'bahmanghui'
+    let l:case.args = ['밯']
+    let l:case.code = ['밯망희']
+    let l:case.expect = ['48175']
+    return l:case
+endfunction
+
 function! s:case_fibonacci()
     " https://github.com/aheui/snippets/blob/master/fibonacci/fibonacci.codroc.aheui
     let l:case = {}
     let l:case.id = 'fibonacci'
+    let l:case.args = []
     let l:case.code = [
         \ '반반나빠빠쌈다빠망빠쌈삼파싸사빠발발밖따따쟈하처우'
         \,'ㅇㅇㅇㅇㅇㅇ오어어어어어어어어어어어어어어어어어어']
@@ -319,6 +332,7 @@ function! s:case_helloworld()
     " https://github.com/aheui/snippets/blob/master/hello-world/hello-world.puzzlet.aheui
     let l:case = {}
     let l:case.id = 'helloworld'
+    let l:case.args = []
     let l:case.code = [
         \ '밤밣따빠밣밟따뿌'
         \,'빠맣파빨받밤뚜뭏'
@@ -336,6 +350,7 @@ function! s:case_hello()
     " https://github.com/aheui/snippets/blob/master/hello-world/hello.puzzlet.aheui
     let l:case = {}
     let l:case.id = 'hello'
+    let l:case.args = []
     let l:case.code = [
         \ '어듀벊벖버범벅벖떠벋벍떠벑번뻐버떠뻐벚벌버더벊벖떠벛벜버버'
         \,'　ㅇ　　ㅏㄴㄴㅕㅇ　　ㅎ　　ㅏ　ㅅ　　ㅔ　ㅇ　　ㅛ　　　\0'
@@ -350,6 +365,7 @@ function! s:case_32bit_integer()
     " https://github.com/aheui/snippets/blob/master/integer/32bit.aheui
     let l:case = {}
     let l:case.id = '32bit integer'
+    let l:case.args = []
     let l:case.code = [
         \ '삭반사밣밣따뿌'
         \,'분ㅇㅇ희멍석차'
@@ -365,6 +381,7 @@ function! s:case_64bit_integer()
     " https://github.com/aheui/snippets/blob/master/integer/64bit.aheui
     let l:case = {}
     let l:case.id = '64bit integer'
+    let l:case.args = []
     let l:case.code = [
         \ '삭반사밣밣따빠다뿌'
         \,'분ㅇㅇㅇㅇ희멍석차'
@@ -380,6 +397,7 @@ function! s:case_ha_ut()
     " https://github.com/aheui/snippets/blob/master/literary/ha-ut.aheui
     let l:case = {}
     let l:case.id = 'ha-ut'
+    let l:case.args = []
     let l:case.code = ['삶은밥과야근밥샤주세양♡밥사밥사밥사밥사밥사땅땅땅빵☆따밦내발따밦다빵맣밥밥밥내놔밥줘밥밥밥밗땅땅땅박밝땅땅딻타밟타맣밦밣따박타맣밦밣따박타맣밦밣따박타맣박빵빵빵빵따따따따맣희']
     let l:case.expect = ['하읏... ']
     return l:case
@@ -390,6 +408,7 @@ function! s:prepare()
     let s:test_case = []
     call add(s:test_case, function('<SID>case_99bottles'))
     call add(s:test_case, function('<SID>case_99dan'))
+    call add(s:test_case, function('<SID>case_bahmanghui'))
     call add(s:test_case, function('<SID>case_fibonacci'))
     call add(s:test_case, function('<SID>case_helloworld'))
     call add(s:test_case, function('<SID>case_hello'))

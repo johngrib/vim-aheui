@@ -12,9 +12,10 @@ let s:position = {}
 let s:breakPoint = []
 let s:step_started = 0
 
-function! VimAheui#debugger#execute(code)
+function! VimAheui#debugger#execute(code, args)
 
     call s:initialize(a:code)
+    let s:memory.args.list = a:args
 
     let l:cmd = s:getCommand(s:pointer)
     while s:hasNext(l:cmd)
