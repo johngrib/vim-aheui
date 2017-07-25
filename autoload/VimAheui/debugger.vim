@@ -16,35 +16,31 @@ function! VimAheui#debugger#execute(code)
 
     call s:initialize(a:code)
 
-    while v:true
-
-        let l:cmd = s:execute()
-
-        if s:isFinished(l:cmd)
-            let s:step_started = 0
-            return VimAheui#printbuffer#get()
-        endif
-
+    let l:cmd = s:getCommand(s:pointer)
+    while s:hasNext(l:cmd)
+        let l:cmd = s:execute(l:cmd)
         let s:pointer = s:pointer.step(l:cmd)
+        let l:cmd = s:getCommand(s:pointer)
     endwhile
+
+    let s:step_started = 0
+    return VimAheui#printbuffer#get()
 endfunction
 
-function! VimAheui#debugger#run(ignoreBreak, isGetValue, code)
+function! VimAheui#debugger#run()
     if ! s:isDebugStarted()
         let l:code = VimAheui#util#getCodeOnEditor()
         call s:initialize(l:code)
     endif
 
-    while v:true
+    let l:cmd = s:getCommand(s:pointer)
 
-        let l:cmd = s:execute()
-
-        if s:isFinished(l:cmd)
-            return s:close(a:isGetValue)
-        endif
-
+    while s:hasNext(l:cmd)
+        let l:cmd = s:execute(l:cmd)
         let s:pointer = s:pointer.step(l:cmd)
+        let l:cmd = s:getCommand(s:pointer)
     endwhile
+    return s:close()
 endfunction
 
 function! VimAheui#debugger#runUntilBreak()
@@ -54,21 +50,20 @@ function! VimAheui#debugger#runUntilBreak()
     endif
 
     let Stop = s:procedure('<SID>moveCursor', 'VimAheui#inspector#open')
+    let l:cmd = s:getCommand(s:pointer)
 
-    while v:true
+    while s:hasNext(l:cmd)
 
-        let l:cmd = s:execute()
-
-        if s:isFinished(l:cmd)
-            return s:close(0)
-        endif
-
+        let l:cmd = s:execute(l:cmd)
         let s:pointer = s:pointer.step(l:cmd)
 
         if l:cmd.break != 0
             return Stop()
         endif
+
+        let l:cmd = s:getCommand(s:pointer)
     endwhile
+    return s:close()
 endfunction
 
 function! VimAheui#debugger#step()
@@ -77,10 +72,11 @@ function! VimAheui#debugger#step()
         call s:initialize(l:code)
     endif
 
-    let l:cmd = s:execute()
+    let l:cmd = s:getCommand(s:pointer)
+    let l:cmd = s:execute(l:cmd)
 
     if s:isFinished(l:cmd)
-        return s:close(0)
+        return s:close()
     endif
 
     let s:pointer = s:pointer.step(l:cmd)
@@ -105,12 +101,9 @@ function! s:initialize(rawCode)
     let s:start_time = reltime()
 endfunction
 
-function! s:close(isGetValue)
+function! s:close()
     let s:step_started = 0
     let l:seconds = reltimefloat(reltime(s:start_time))
-    if a:isGetValue
-        return VimAheui#printbuffer#get()
-    endif
     call VimAheui#printbuffer#pushStr(s:getElapsedTimeStr(l:seconds))
     call VimAheui#console#open()
 endfunction
@@ -175,6 +168,10 @@ function! s:isFinished(cmd)
     return a:cmd.cho == 'ㅎ'
 endfunction
 
+function! s:hasNext(cmd)
+    return a:cmd.cho != 'ㅎ'
+endfunction
+
 function! s:doNothing()
 endfunction
 
@@ -182,11 +179,9 @@ function! s:getElapsedTimeStr(time)
     return "\nelapsed time: " . string(a:time) . ' sec'
 endfunction
 
-
-function! s:execute()
-    let l:cmd = s:getCommand(s:pointer)
-    let Cfunc = s:functions.get(l:cmd)
-    return Cfunc(l:cmd, s:memory)
+function! s:execute(cmd)
+    let Cfunc = s:functions.get(a:cmd)
+    return Cfunc(a:cmd, s:memory)
 endfunction
 
 function! s:moveCursor()

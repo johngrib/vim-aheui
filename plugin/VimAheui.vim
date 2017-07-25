@@ -10,8 +10,8 @@ if ! s:isValidVersion(v:version)
 endif
 
 command! -nargs=0 AheuiStep call VimAheui#debugger#step()
-command! -nargs=0 AheuiRun call VimAheui#debugger#run(0, 0, 0)
-command! -nargs=0 AheuiRunIgnoreBreak call VimAheui#debugger#run(1, 0, 0)
+command! -nargs=0 AheuiRun call VimAheui#debugger#run()
+command! -nargs=0 AheuiRunUntilBreak call VimAheui#debugger#runUntilBreak()
 command! -nargs=0 AheuiTest call VimAheui#test#run()
 
 nmap <F2> :AheuiStep<CR>
