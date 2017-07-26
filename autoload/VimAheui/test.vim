@@ -23,7 +23,7 @@ function! VimAheui#test#run()
             let l:failed += 1
             call add(l:failed_id, l:item.id)
             echom 'failed: ' . l:item.id
-            echom 'result: ' . l:result
+            echom 'result: ' . string(l:result)
         endif
     endfor
 
@@ -650,6 +650,106 @@ function! s:case_standard_exitcode()
     return l:case
 endfunction
 
+function! s:case_standard_hieut_pop()
+    " https://github.com/aheui/snippets/blob/master/standard/hieut-pop.aheui
+    let l:case = {}
+    let l:case.id = 'standard/hieut-pop'
+    let l:case.args = []
+    let l:case.code = [
+        \ '하멍번버'
+        \,''
+        \,''
+        \,'ㅎ은 끝냄 명령으로 커서의 실행을 끝냅니다. 이 때 현재 선택된 저장 공간에 값이 하나 이상 남아 있으면 ㅁ 명령으로 뽑아낼 수 있는 값을 뽑아내 운영체제에 돌려 줍니다. 저장 공간이 비어 있으면 0을 돌려줍니다.'
+        \,''
+        \,'저장 공간이 비어 있더라도 커서의 실행은 끝냅니다. 반대 방향으로 이동하지 않습니다.']
+    let l:case.expect = []
+    return l:case
+endfunction
+
+function! s:case_standard_ieunghieut()
+    " https://github.com/aheui/snippets/blob/master/standard/ieunghieut.aheui
+    let l:case = {}
+    let l:case.id = 'standard/ieunghieut'
+    let l:case.args = []
+    let l:case.code = [
+        \ '아악안앋압알앗았앜앇헐'
+        \,''
+        \,'ㅇ은 없음 명령으로 아무 일도 하지 않습니다. * ㅎ은 끝냄 명령으로 커서의 실행을 끝냅니다.'
+        \,'사용되지 않는 받침은 모두 무시됩니다.']
+    let l:case.expect = []
+    return l:case
+endfunction
+
+function! s:case_standard_jieut()
+    " https://github.com/aheui/snippets/blob/master/standard/jieut.aheui
+    let l:case = {}
+    let l:case.id = 'standard/jieut'
+    let l:case.args = []
+    let l:case.code = [
+        \ '반반자망받반자망반받자망희'
+        \,''
+        \,'ㅈ은 비교 명령으로 저장공간에서 값 두 개를 뽑아 내서 비교합니다. 나중에 뽑아낸 값이 더 크거나 같으면 1을, 아니면 0을 지금 저장공간에 집어넣습니다.']
+    let l:case.expect = [110]
+    return l:case
+endfunction
+
+function! s:case_standard_loop()
+    " https://github.com/aheui/snippets/blob/master/standard/loop.aheui
+    let l:case = {}
+    let l:case.id = 'standard/loop'
+    let l:case.args = []
+    let l:case.code = [
+        \ '밦밦따빠뚜'
+        \,'뿌뚜뻐뚜뻐'
+        \,'따ㅇㅇㅇ우'
+        \,'ㅇㅇ아ㅇ분'
+        \,'ㅇㅇ초뻐터'
+        \,'ㅇㅇ망희']
+    let l:case.expect = [0]
+    return l:case
+endfunction
+
+function! s:case_standard_mieum()
+    " https://github.com/aheui/snippets/blob/master/standard/mieum.aheui
+    let l:case = {}
+    let l:case.id = 'standard/mieum'
+    let l:case.args = []
+    let l:case.code = [
+        \ '바반받밤발밦밠밣밞망만맘말망맋맠맟망희'
+        \,''
+        \,'ㅁ에 ㅇ받침이 있으면 저장공간에서 뽑아낸 값을 숫자로, ㅎ받침이 있으면 그 값에 해당하는 유니코드 문자로 출력합니다. 나머지 받침은 뽑아낸 값을 그냥 버립니다.']
+    let l:case.expect = [950]
+    return l:case
+endfunction
+
+function! s:case_standard_nieun()
+    " https://github.com/aheui/snippets/blob/master/standard/nieun.aheui
+    let l:case = {}
+    let l:case.id = 'standard/nieun'
+    let l:case.args = []
+    let l:case.code = [
+        \ '밟받나망희'
+        \,''
+        \,'ㄴ은 나눗셈 명령으로 저장공간에서 두 값을 뽑아낸 다음 나중 값에서 먼저 값을 나눈 값을 저장공간에 집어넣습니다.']
+    let l:case.expect = [3]
+    return l:case
+endfunction
+
+function! s:case_standard_pieup()
+    " https://github.com/aheui/snippets/blob/master/standard/pieup.aheui
+    let l:case = {}
+    let l:case.id = 'standard/pieup'
+    let l:case.args = []
+    let l:case.code = [
+        \ '바밟밟땅밝밝땅팡망망우'
+        \,'숭ㅇㅇㅇㅇㅇㅇㅇㅇㅇ어'
+        \,'밟밟밝밝땅땅바팡망망희'
+        \,''
+        \,'ㅍ은 바꿔치기 명령입니다. 지금 저장공간이 스택이라면 맨 위 값과 그 바로 아래 값을, 큐라면 맨 앞의 값과 그 바로 뒤 값을 바꿉니다.']
+    let l:case.expect = [81494981]
+    return l:case
+endfunction
+
 function! s:prepare()
 
     let s:test_case = []
@@ -681,6 +781,13 @@ function! s:prepare()
     call add(s:test_case, function('<SID>case_standard_emptyswap'))
     call add(s:test_case, function('<SID>case_standard_exhausted_storage'))
     call add(s:test_case, function('<SID>case_standard_exitcode'))
+    call add(s:test_case, function('<SID>case_standard_hieut_pop'))
+    call add(s:test_case, function('<SID>case_standard_ieunghieut'))
+    call add(s:test_case, function('<SID>case_standard_jieut'))
+    " call add(s:test_case, function('<SID>case_standard_loop'))
+    call add(s:test_case, function('<SID>case_standard_mieum'))
+    call add(s:test_case, function('<SID>case_standard_nieun'))
+    call add(s:test_case, function('<SID>case_standard_pieup'))
 
     return s:test_case
 endfunction

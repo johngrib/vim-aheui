@@ -40,9 +40,9 @@ function! s:swap() dict
     if len(self.list) < 2
         throw 'swap : ' . (self.type) . (self.name) . ' size is ' . len(self.list)
     endif
-    let l:tail = self.list[-1]
-    let self.list[-1] = self.list[-2]
-    let self.list[-2] = l:tail
+    let l:head = self.list[0]
+    let self.list[0] = self.list[1]
+    let self.list[1] = l:head
 endfunction
 
 function! s:size() dict
