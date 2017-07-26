@@ -34,15 +34,23 @@ function! VimAheui#number#new()
     return l:obj
 endfunction
 
-function! s:getNumber(num)
+function! s:getNumber(num, memory)
     return a:num
 endfunction
 
-function! s:getUserInputNumber()
+function! s:getUserInputNumber(memory)
+    let l:args = a:memory.args
+    if l:args.size() > 0
+        return str2nr(l:args.pop())
+    endif
     return str2nr(input('input one Integer : '))
 endfunction
 
-function! s:getUserInputChar()
+function! s:getUserInputChar(memory)
+    let l:args = a:memory.args
+    if l:args.size() > 0
+        return char2nr(l:args.pop())
+    endif
     let l:str = input('input one char : ')
     if strchars(l:str) < 1
         return 0

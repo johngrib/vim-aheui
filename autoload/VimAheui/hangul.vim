@@ -15,7 +15,7 @@ function! VimAheui#hangul#divide(char)
     let l:num = char2nr(a:char)
 
     if l:num < 44032 || l:num > 55203
-        return {'cho': '', 'jung': '', 'jong': '', 'char': a:char, 'reverse': 0, 'break': 0}
+        return s:getNone(a:char)
     endif
 
     let l:num = char2nr(a:char) - 44032
@@ -24,7 +24,11 @@ function! VimAheui#hangul#divide(char)
     let l:jung = (l:num % 588) / 28
     let l:jong = l:num % 28
 
-    return {'cho': get(s:cho, l:cho, ''), 'jung': get(s:jung, l:jung, ''), 'jong': get(s:jong, l:jong, ''), 'char': a:char, 'reverse': 0, 'break': 0}
+    return {'cho': get(s:cho, l:cho, ''), 'jung': get(s:jung, l:jung, ''), 'jong': get(s:jong, l:jong, ''), 'char': a:char, 'reverse': 0, 'break': 0, 'stepPass': 0}
 
+endfunction
+
+function! s:getNone(char)
+    return {'cho': '', 'jung': '', 'jong': '', 'char': a:char, 'reverse': 0, 'break': 0, 'stepPass': 1}
 endfunction
 

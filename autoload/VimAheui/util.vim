@@ -20,6 +20,22 @@ endfunction
 
 function! s:getCodeList(rawCode)
     let l:codeList = split(a:rawCode, '\n', 1)
+
+    let l:length = copy(l:codeList)
+    call map(l:length, {key, val -> strchars(val)})
+
+    let l:max_length = max(l:length)
+
+    let l:index = 0
+    for line in l:codeList
+        let l:size = strchars(line)
+        if l:size < l:max_length
+            let line .= repeat(' ', l:max_length - l:size)
+            let l:codeList[l:index] = line
+        endif
+        let l:index += 1
+    endfor
+
     call map(l:codeList, {ind, val -> split(val, '.\zs')})
     call map(l:codeList, {ind, val -> len(val) < 1 ? [''] : val})
     return l:codeList
