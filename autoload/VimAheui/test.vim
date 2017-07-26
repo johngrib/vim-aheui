@@ -750,8 +750,288 @@ function! s:case_standard_pieup()
     return l:case
 endfunction
 
-function! s:prepare()
+function! s:case_standard_print()
+    " https://github.com/aheui/snippets/blob/master/standard/print.aheui
+    let l:case = {}
+    let l:case.id = 'standard/print'
+    let l:case.args = []
+    let l:case.code = [
+        \ '밞밞반다따반타뭉'
+        \,'ㅇㅇㅇㅇㅇㅇㅇ밞밞반다따반타맣희'
+        \,''
+        \,'ㅁ에 ㅇ받침이 있으면 저장공간에서 뽑아낸 값을 숫자로, ㅎ받침이 있으면 그 값에 해당하는 유니코드 문자로 출력합니다.']
+    let l:case.expect = ['97a']
+    return l:case
+endfunction
 
+function! s:case_standard_queue()
+    " https://github.com/aheui/snippets/blob/master/standard/queue.aheui
+    let l:case = {}
+    let l:case.id = 'standard/queue'
+    let l:case.args = []
+    let l:case.code = [
+        \ '상반받뱔우망이'
+        \,'뭉뻐벋번성'
+        \,'망망희']
+    let l:case.expect = [235223]
+    return l:case
+endfunction
+
+function! s:case_standard_rieul()
+    " https://github.com/aheui/snippets/blob/master/standard/rieul.aheui
+    let l:case = {}
+    let l:case.id = 'standard/rieul'
+    let l:case.args = []
+    let l:case.code = [
+        \ '밟발라망희'
+        \,''
+        \,'ㄹ은 나머지 명령으로 저장공간에서 두 값을 뽑아낸 다음 나중 값에서 먼저 값을 나눈 나머지를 저장공간에 집어넣습니다.']
+    let l:case.expect = [4]
+    return l:case
+endfunction
+
+function! s:case_standard_shebang()
+    " https://github.com/aheui/snippets/blob/master/standard/shebang.aheui
+    let l:case = {}
+    let l:case.id = 'standard/shebang'
+    let l:case.args = []
+    let l:case.code = [
+        \ '#!/usr/bin/env aheui'
+        \,'반망희'
+        \,''
+        \,'표준: 커서는 코드 공간의 맨 첫 줄 맨 첫번째 칸에서 시작합니다. 맨 처음에 홀소리가 없을 경우 커서는 기본값으로 아랫쪽으로 이동하는데, 이는 #!과 호환시키기 위한 것으로, 기본 방향이 오른쪽인 funge와는 다른 점입니다.']
+    let l:case.expect = [2]
+    return l:case
+endfunction
+
+function! s:case_standard_ssangbieup()
+    " https://github.com/aheui/snippets/blob/master/standard/ssangbieup.aheui
+    let l:case = {}
+    let l:case.id = 'standard/ssangbieup'
+    let l:case.args = []
+    let l:case.code = [
+        \ '밟밟땅빵망망희'
+        \,''
+        \,'ㅃ은 중복 명령입니다. 지금 저장공간이 스택이라면 맨 위의 값을 그 값 위에 하나 더 집어넣고, 큐라면 맨 앞의 값을 앞에 하나 더 덧붙입니다.']
+    let l:case.expect = [8181]
+    return l:case
+endfunction
+
+function! s:case_standard_ssangdigeut()
+    " https://github.com/aheui/snippets/blob/master/standard/ssangdigeut.aheui
+    let l:case = {}
+    let l:case.id = 'standard/ssangdigeut'
+    let l:case.args = []
+    let l:case.code = [
+        \ '발밞따망희'
+        \,''
+        \,'ㄸ은 곱셈 명령으로 저장공간에서 두 값을 뽑아낸 다음 둘을 곱한 값을 저장공간에 집어넣습니다.']
+    let l:case.expect = [45]
+    return l:case
+endfunction
+
+function! s:case_standard_ssangsiot()
+    " https://github.com/aheui/snippets/blob/master/standard/ssangsiot.aheui
+    let l:case = {}
+    let l:case.id = 'standard/ssangsiot'
+    let l:case.args = []
+    let l:case.code = [
+        \ '아바싹반싼받싿우'
+        \,'우멍석멍선멍섣어'
+        \,'아바쌀반쌈받쌉우'
+        \,'우멍설멍섬멍섭어'
+        \,'아바쌋반쌍받쌎우'
+        \,'우멍섯멍성멍섲어'
+        \,'아바쌏반쌐받쌑우'
+        \,'우멍섳멍섴멍섵어'
+        \,'아바쌒반싺받싻우'
+        \,'우멍섶멍섞멍섟어'
+        \,'아바싽반싾받쌁우'
+        \,'우멍섡멍섢멍섥어'
+        \,'아바쌂반쌃받쌄우'
+        \,'우멍섦멍섧멍섨어'
+        \,'아바쌅반쌆받쌇우'
+        \,'우멍섩멍섪멍섫어'
+        \,'아바쌊반쌌받싸우'
+        \,'희멍섮멍섰멍서어'
+        \,''
+        \,'ㅆ은 이동 명령으로 저장공간에서 값 하나를 뽑아내서 받침이 나타내는 저장공간에 그 값을 집어 넣습니다.']
+    let l:case.expect = ['320320320320320320320320320']
+    return l:case
+endfunction
+
+function! s:case_standard_storage()
+    " https://github.com/aheui/snippets/blob/master/standard/storage.aheui
+    let l:case = {}
+    let l:case.id = 'standard/storage'
+    let l:case.args = []
+    let l:case.code = [
+        \ '바반받뭉'
+        \,'우석멍멍'
+        \,'바반받뭉'
+        \,'우선멍멍'
+        \,'바반받뭉'
+        \,'우섣멍멍'
+        \,'바반받뭉'
+        \,'우설멍멍'
+        \,'바반받뭉'
+        \,'우섬멍멍'
+        \,'바반받뭉'
+        \,'우섭멍멍'
+        \,'바반받뭉'
+        \,'우섯멍멍'
+        \,'바반받뭉'
+        \,'우성멍멍'
+        \,'바반받뭉'
+        \,'우섲멍멍'
+        \,'바반받뭉'
+        \,'우섳멍멍'
+        \,'바반받뭉'
+        \,'우섴멍멍'
+        \,'바반받뭉'
+        \,'우섵멍멍'
+        \,'바반받뭉'
+        \,'우섶멍멍'
+        \,'바반받뭉'
+        \,'끝희멍멍'
+        \,''
+        \,'아희에서 쓰이는 저장 공간은 여러 개가 있습니다. 대부분이 스택이고, 큐가 하나 있습니다.'
+        \,'ㅁ은 뽑기 명령입니다. 지금 저장공간이 스택이라면 맨 위의 값, 큐라면 맨 앞의 값을 뽑아냅니다.(pop) 통로라면 거기서 값을 하나 뽑아옵니다. ㅁ 명령에는 받침이 올 수 있는데, 이에 대한 설명은 아래에 있습니다.'
+        \,'ㅁ에 ㅇ받침이 있으면 저장공간에서 뽑아낸 값을 숫자로, ㅎ받침이 있으면 그 값에 해당하는 유니코드 문자로 출력합니다.']
+    let l:case.expect = ['320320320320320320320320023320320320320320']
+    return l:case
+endfunction
+
+function! s:case_standard_syllable()
+    " https://github.com/aheui/snippets/blob/master/standard/syllable.aheui
+    let l:case = {}
+    let l:case.id = 'standard/syllable'
+    let l:case.args = []
+    let l:case.code = [
+        \ 'ㅏ희ㅣ😄ㅓ'
+        \,'뱓ㅗㅈㅊ몽'
+        \,'ㅂ😃먕버헥'
+        \,''
+        \,'코드는 한글로만 이루어지는데, 여기서 한글은 유니코드 U+AC00에서 U+D7A3까지의 범위에 있는 글자(hangul syllable 영역)를 말합니다. 그 밖의 글자나 코드에서 지정하지 않은 나머지 공간은 모두 빈 칸으로 처리되어 커서가 이동하는 방향에 아무 영향을 주지 않습니다.']
+    let l:case.expect = [3]
+    return l:case
+endfunction
+
+function! s:case_standard_tieut()
+    " https://github.com/aheui/snippets/blob/master/standard/tieut.aheui
+    let l:case = {}
+    let l:case.id = 'standard/tieut'
+    let l:case.args = []
+    let l:case.code = [
+        \ '받반타망희'
+        \,''
+        \,'ㅌ은 뺄셈 명령으로 저장공간에서 두 값을 뽑아낸 다음 나중 값에서 먼저 값을 뺀 값을 저장공간에 집어넣습니다.']
+    let l:case.expect = [1]
+    return l:case
+endfunction
+
+function! s:case_standard_vowel_2step()
+    " https://github.com/aheui/snippets/blob/master/standard/vowel-2step.aheui
+    let l:case = {}
+    let l:case.id = 'standard/vowel-2step'
+    let l:case.args = []
+    let l:case.code = [
+        \ '뷷우희어밍우여'
+        \,'아아아아아아아반받망희'
+        \,'먕오뱞오뱗오뵬'
+        \,''
+        \,'ㅑ, ㅕ, ㅛ, ㅠ - 커서를 각각 오른쪽, 왼쪽, 위, 아래로 두 칸 옮깁니다.'
+        \,'중복 명령을 포함한 모든 뽑아내기를 쓰는 명령에서 저장 공간에 값이 모자랄 경우, 커서는 그 명령을 실행하지 않고 커서가 있는 글자의 홀소리의 반대방향으로 움직입니다.']
+    let l:case.expect = [3596]
+    return l:case
+endfunction
+
+function! s:case_standard_vowel_advanced()
+    " https://github.com/aheui/snippets/blob/master/standard/vowel-advanced.aheui
+    let l:case = {}
+    let l:case.id = 'standard/vowel-advanced'
+    let l:case.args = []
+    let l:case.code = [
+        \ '반븓븝불'
+        \,'우멍벎망이밟망희'
+        \,'빈'
+        \,'빋밟망희'
+        \,'붑으'
+        \,'발몽'
+        \,'ㅇ밞망분'
+        \,'ㅇ불법벋'
+        \,'의멍밞망희'
+        \,''
+        \,'ㅡ - 커서가 가로로 왔으면 그 방향대로, 세로로 왔으면 전에 있던 자리로 옮깁니다.'
+        \,'ㅣ - 커서가 세로로 왔으면 그 방향대로, 가로로 왔으면 전에 있던 자리로 옮깁니다.'
+        \,'ㅢ - 커서를 전에 있던 자리로 옮깁니다.']
+    let l:case.expect = ['543295432954329']
+    return l:case
+endfunction
+
+function! s:case_standard_vowel_basic()
+    " https://github.com/aheui/snippets/blob/master/standard/vowel-basic.aheui
+    let l:case = {}
+    let l:case.id = 'standard/vowel-basic'
+    let l:case.args = []
+    let l:case.code = [
+        \ '붇희희멍'
+        \,'망밦망볿'
+        \,''
+        \,'ㅏ, ㅓ, ㅗ, ㅜ - 커서를 각각 오른쪽, 왼쪽, 위, 아래로 한 칸 옮깁니다.']
+    let l:case.expect = [369]
+    return l:case
+endfunction
+
+function! s:case_standard_vowel_useless()
+    " https://github.com/aheui/snippets/blob/master/standard/vowel-useless.aheui
+    let l:case = {}
+    let l:case.id = 'standard/vowel-useless'
+    let l:case.args = []
+    let l:case.code = [
+        \ '우아앙배벤뱯볩뷜뫙뫵뮝뭥뮁우'
+        \,'배맹희맹멩먱몡뮝봘봽붣붠붸어'
+        \,'벤멩'
+        \,'뱯먱'
+        \,'볩몡'
+        \,'뷜뮝'
+        \,'뫙봘'
+        \,'뫵봽'
+        \,'묑뵏'
+        \,'뭥붠'
+        \,'뮁붸'
+        \,'아오'
+        \,''
+        \,'기능 없음: ㅐ ㅔ ㅒ ㅖ ㅘ ㅙ ㅚ ㅝ ㅞ ㅟ (커서가 이동하는 방향은 변하지 않습니다.)']
+    let l:case.expect = ['54320543205432054320']
+    return l:case
+endfunction
+
+function! s:case_standard_vowel_useless2()
+    " https://github.com/aheui/snippets/blob/master/standard/vowel-useless2.aheui
+    let l:case = {}
+    let l:case.id = 'standard/vowel-useless2'
+    let l:case.args = []
+    let l:case.code = [
+        \ '와아앙배벤뱯볩뷜뫙뫵뮝뭥뮁우'
+        \,'배맹희맹멩먱몡뮝봘봽붣붠붸어'
+        \,'벤멩'
+        \,'뱯먱'
+        \,'볩몡'
+        \,'뷜뮝'
+        \,'뫙봘'
+        \,'뫵봽'
+        \,'묑뵏'
+        \,'뭥붠'
+        \,'뮁붸'
+        \,'아오'
+        \,''
+        \,'기능 없음: ㅐ ㅔ ㅒ ㅖ ㅘ ㅙ ㅚ ㅝ ㅞ ㅟ (커서가 이동하는 방향은 변하지 않습니다.)']
+    let l:case.expect = ['54320543205432054320']
+    return l:case
+endfunction
+
+function! s:prepare()
     let s:test_case = []
     call add(s:test_case, function('<SID>case_99bottles'))
     call add(s:test_case, function('<SID>case_99dan'))
@@ -784,10 +1064,25 @@ function! s:prepare()
     call add(s:test_case, function('<SID>case_standard_hieut_pop'))
     call add(s:test_case, function('<SID>case_standard_ieunghieut'))
     call add(s:test_case, function('<SID>case_standard_jieut'))
-    " call add(s:test_case, function('<SID>case_standard_loop'))
+    " call add(s:test_case, function('<SID>case_standard_loop'))    " passed 너무 오래 걸려서 봉인
     call add(s:test_case, function('<SID>case_standard_mieum'))
     call add(s:test_case, function('<SID>case_standard_nieun'))
     call add(s:test_case, function('<SID>case_standard_pieup'))
+    call add(s:test_case, function('<SID>case_standard_print'))
+    call add(s:test_case, function('<SID>case_standard_queue'))
+    call add(s:test_case, function('<SID>case_standard_rieul'))
+    call add(s:test_case, function('<SID>case_standard_shebang'))
+    call add(s:test_case, function('<SID>case_standard_ssangbieup'))
+    call add(s:test_case, function('<SID>case_standard_ssangdigeut'))
+    call add(s:test_case, function('<SID>case_standard_ssangsiot'))
+    call add(s:test_case, function('<SID>case_standard_storage'))
+    call add(s:test_case, function('<SID>case_standard_syllable'))
+    call add(s:test_case, function('<SID>case_standard_tieut'))
+    call add(s:test_case, function('<SID>case_standard_vowel_2step'))
+    call add(s:test_case, function('<SID>case_standard_vowel_advanced'))
+    call add(s:test_case, function('<SID>case_standard_vowel_basic'))
+    call add(s:test_case, function('<SID>case_standard_vowel_useless'))
+    call add(s:test_case, function('<SID>case_standard_vowel_useless2'))
 
     return s:test_case
 endfunction
