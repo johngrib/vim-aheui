@@ -25,7 +25,7 @@ function! VimAheui#debugger#execute(code, args)
     endwhile
 
     let s:step_started = 0
-    return VimAheui#printbuffer#getString()
+    return {'exitCode': s:memory.popExitCode(), 'out': VimAheui#printbuffer#getString()}
 endfunction
 
 function! VimAheui#debugger#run()

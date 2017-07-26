@@ -39,6 +39,8 @@ function! VimAheui#memory#new()
     call extend(l:collection, s:initQueue())
     call extend(l:collection, s:initPipe())
 
+    let l:collection.isExistExitCode = function('<SID>isExistExitCode')
+    let l:collection.popExitCode = function('<SID>popExitCode')
     let l:collection.toStringList = function('<SID>toStringList')
     let l:collection.get = function('<SID>get')
     let l:collection.select = function('<SID>select')
@@ -100,4 +102,14 @@ function! s:toStringList() dict
         call add(l:list, self[pipe_name].toString())
     endfor
     return l:list
+endfunction
+
+function! s:isExistExitCode() dict
+    return self.selected.size() > 0
+endfunction
+
+function! s:popExitCode() dict
+    if self.isExistExitCode()
+        return self.selected.pop()
+    endif
 endfunction

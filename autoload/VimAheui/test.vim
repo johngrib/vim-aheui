@@ -15,7 +15,8 @@ function! VimAheui#test#run()
     for Case in s:test_case
         let l:item = Case()
         let l:result = VimAheui#debugger#execute(join(l:item.code, "\n"), l:item.args)
-        if l:result == string(join(l:item.expect, "\n"))
+
+        if s:isPassed(l:item, l:result)
             let l:success += 1
             echom 'passed: ' . l:item.id
         else
@@ -31,6 +32,16 @@ function! VimAheui#test#run()
     if len(l:failed_id) > 0
         echom 'failed id list : '.string(l:failed_id)
     endif
+endfunction
+
+function! s:isPassed(expectItem, resultSet)
+    if a:resultSet.out != string(join(a:expectItem.expect, "\n"))
+        return 0
+    endif
+    if has_key(a:expectItem, 'exitCode') && a:expectItem.exitCode != a:resultSet.exitCode
+        return 0
+    endif
+    return 1
 endfunction
 
 function! s:case_99bottles()
@@ -607,6 +618,7 @@ function! s:case_standard_emptyswap()
         \,''
         \,'종료만 제외하고, 중복과 바꿔치기 명령을 포함한 모든 뽑아내기를 쓰는 명령에 해당합니다.']
     let l:case.expect = []
+    let l:case.exitCode = 2
     return l:case
 endfunction
 
@@ -621,6 +633,20 @@ function! s:case_standard_exhausted_storage()
         \,''
         \,'중복 명령을 포함한 모든 뽑아내기를 쓰는 명령에서 저장 공간에 값이 모자랄 경우, 커서는 그 명령을 실행하지 않고 커서가 있는 글자의 홀소리의 반대방향으로 움직입니다.']
     let l:case.expect = [3]
+    return l:case
+endfunction
+
+function! s:case_standard_exitcode()
+    " https://github.com/aheui/snippets/blob/master/standard/exitcode.aheui
+    let l:case = {}
+    let l:case.id = 'standard/exitcode'
+    let l:case.args = []
+    let l:case.code = [
+        \ '반월회'
+        \,''
+        \,'ㅎ은 끝냄 명령으로 커서의 실행을 끝냅니다. 이 때 스택에서 맨 위 값을 뽑아서 운영체제에 돌려 줍니다.']
+    let l:case.expect = []
+    let l:case.exitCode = 2
     return l:case
 endfunction
 
@@ -654,6 +680,7 @@ function! s:prepare()
     call add(s:test_case, function('<SID>case_standard_digeut'))
     call add(s:test_case, function('<SID>case_standard_emptyswap'))
     call add(s:test_case, function('<SID>case_standard_exhausted_storage'))
+    call add(s:test_case, function('<SID>case_standard_exitcode'))
 
     return s:test_case
 endfunction
