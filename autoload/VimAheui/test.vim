@@ -555,6 +555,75 @@ function! s:case_standard_chieut()
     return l:case
 endfunction
 
+function! s:case_standard_default_direction()
+    " https://github.com/aheui/snippets/blob/master/standard/default-direction.aheui
+    let l:case = {}
+    let l:case.id = 'standard/default-direction'
+    let l:case.args = []
+    let l:case.code = [
+        \ '뵐망희'
+        \,'마본'
+        \,''
+        \,'커서는 코드 공간의 맨 첫 줄 맨 첫 번째 칸에서 시작합니다. 가장 첫 칸에 커서의 방향이 지정되어 있지 않을 경우 커서는 기본값인 아랫쪽으로 이동합니다.']
+    let l:case.expect = [2]
+    return l:case
+endfunction
+
+function! s:case_standard_default_storage()
+    " https://github.com/aheui/snippets/blob/master/standard/default-storage.aheui
+    let l:case = {}
+    let l:case.id = 'standard/default-storage'
+    let l:case.args = []
+    let l:case.code = [
+        \ '밞산바삳바사망희'
+        \,''
+        \,'처음에 선택되어 있는 스택은 (받침 없음) 스택입니다. (“사” 와 같은 명령으로 선택할 수 있습니다.)']
+    let l:case.expect = [9]
+    return l:case
+endfunction
+
+function! s:case_standard_digeut()
+    " https://github.com/aheui/snippets/blob/master/standard/digeut.aheui
+    let l:case = {}
+    let l:case.id = 'standard/digeut'
+    let l:case.args = []
+    let l:case.code = [
+        \ '반받다망희'
+        \,''
+        \,'ㄷ은 덧셈 명령으로 저장공간에서 두 값을 뽑아낸 다음 둘을 더한 값을 저장공간에 집어넣습니다.']
+    let l:case.expect = [5]
+    return l:case
+endfunction
+
+function! s:case_standard_emptyswap()
+    " https://github.com/aheui/snippets/blob/master/standard/emptyswap.aheui
+    let l:case = {}
+    let l:case.id = 'standard/emptyswap'
+    let l:case.args = []
+    let l:case.code = [
+        \ '뱐희파반망희'
+        \,''
+        \,'연산에 필요한 충분한 갯수의 값이 저장공간에 저장되어 있지 않은 경우, 커서는 그 명령을 실행하지 않고 진행해야 할 방향의 반대방향으로 움직입니다.'
+        \,''
+        \,'종료만 제외하고, 중복과 바꿔치기 명령을 포함한 모든 뽑아내기를 쓰는 명령에 해당합니다.']
+    let l:case.expect = []
+    return l:case
+endfunction
+
+function! s:case_standard_exhausted_storage()
+    " https://github.com/aheui/snippets/blob/master/standard/exhausted-storage.aheui
+    let l:case = {}
+    let l:case.id = 'standard/exhausted-storage'
+    let l:case.args = []
+    let l:case.code = [
+        \ '아ㅇㅇ우'
+        \,'희멍벋망반망희'
+        \,''
+        \,'중복 명령을 포함한 모든 뽑아내기를 쓰는 명령에서 저장 공간에 값이 모자랄 경우, 커서는 그 명령을 실행하지 않고 커서가 있는 글자의 홀소리의 반대방향으로 움직입니다.']
+    let l:case.expect = [3]
+    return l:case
+endfunction
+
 function! s:prepare()
 
     let s:test_case = []
@@ -580,6 +649,11 @@ function! s:prepare()
     call add(s:test_case, function('<SID>case_standard_bieup'))
     call add(s:test_case, function('<SID>case_standard_border'))
     call add(s:test_case, function('<SID>case_standard_chieut'))
+    call add(s:test_case, function('<SID>case_standard_default_direction'))
+    call add(s:test_case, function('<SID>case_standard_default_storage'))
+    call add(s:test_case, function('<SID>case_standard_digeut'))
+    call add(s:test_case, function('<SID>case_standard_emptyswap'))
+    call add(s:test_case, function('<SID>case_standard_exhausted_storage'))
 
     return s:test_case
 endfunction
