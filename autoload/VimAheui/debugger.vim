@@ -25,7 +25,8 @@ function! VimAheui#debugger#execute(code, args)
     endwhile
 
     let s:step_started = 0
-    return {'exitCode': s:memory.popExitCode(), 'out': VimAheui#printbuffer#getString()}
+    let l:seconds = reltimefloat(reltime(s:start_time))
+    return {'exitCode': s:memory.popExitCode(), 'out': VimAheui#printbuffer#getString(), 'time': l:seconds}
 endfunction
 
 function! VimAheui#debugger#run()
