@@ -162,6 +162,9 @@ function! s:isDebugStarted()
     return s:step_started == 1 && s:target_file == @%
 endfunction
 
+function! VimAheui#debugger#isStarted()
+    return s:step_started == 1 && s:target_file == @%
+endfunction
 
 function! s:chain(...)
     for Func in a:000

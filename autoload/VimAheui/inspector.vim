@@ -4,6 +4,10 @@ let s:buffer_name = '* VIM AHEUI MEMORY INSPECTOR *'
 
 function! VimAheui#inspector#open()
 
+    if ! VimAheui#debugger#isStarted()
+        return
+    endif
+
     let l:edit_buffer = @%
 
     if bufexists(s:buffer_name)
