@@ -93,13 +93,19 @@ endfunction
 function! s:toStringList() dict
     let l:list = []
     for stack_name in s:stackNames
-        call add(l:list, self[stack_name].toString())
+        if self[stack_name].size() > 0
+            call add(l:list, self[stack_name].toString())
+        endif
     endfor
     for queue_name in s:queueNames
-        call add(l:list, self[queue_name].toString())
+        if self[queue_name].size() > 0
+            call add(l:list, self[queue_name].toString())
+        endif
     endfor
     for pipe_name in s:pipeNames
-        call add(l:list, self[pipe_name].toString())
+        if self[pipe_name].size() > 0
+            call add(l:list, self[pipe_name].toString())
+        endif
     endfor
     return l:list
 endfunction
