@@ -199,7 +199,9 @@ endfunction
 
 function! s:moveCursor()
     call cursor(s:position.line + s:pointer.y, 1)
-    execute 'normal! ' . s:pointer.x . 'l'
+    if s:pointer.x > 0
+        execute 'normal! ' . s:pointer.x . 'l'
+    endif
 endfunction
 
 function! s:getUtil()
