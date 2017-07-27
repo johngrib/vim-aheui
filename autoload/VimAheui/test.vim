@@ -1123,7 +1123,7 @@ function! s:prepare()
     call add(s:test_case, function('<SID>case_standard_hieut_pop'))
     call add(s:test_case, function('<SID>case_standard_ieunghieut'))
     call add(s:test_case, function('<SID>case_standard_jieut'))
-    " call add(s:test_case, function('<SID>case_standard_loop'))    " passed 너무 오래 걸려서 봉인
+    call add(s:test_case, function('<SID>case_standard_loop'))    " passed 너무 오래 걸려서 봉인
     call add(s:test_case, function('<SID>case_standard_mieum'))
     call add(s:test_case, function('<SID>case_standard_nieun'))
     call add(s:test_case, function('<SID>case_standard_pieup'))
