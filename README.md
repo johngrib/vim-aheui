@@ -99,7 +99,7 @@ nnoremap <leader>aic :AheuiInspectorClose<CR>
 
 다음을 .vimrc 에 추가합니다.
 
-> Plug 'johngrib/vim-game-code-break'
+> Plug 'johngrib/vim-aheui'
 
 그리고 다음과 같이 설치합니다.
 
